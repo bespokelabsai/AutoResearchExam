@@ -1,0 +1,54 @@
+{
+  "instances": [
+    {
+      "id": "cloud_00",
+      "file": "cloud_00.npy",
+      "n": 2436,
+      "k": 30
+    },
+    {
+      "id": "cloud_01",
+      "file": "cloud_01.npy",
+      "n": 3217,
+      "k": 65
+    },
+    {
+      "id": "cloud_02",
+      "file": "cloud_02.npy",
+      "n": 1149,
+      "k": 30
+    },
+    {
+      "id": "cloud_03",
+      "file": "cloud_03.npy",
+      "n": 1374,
+      "k": 30
+    },
+    {
+      "id": "cloud_04",
+      "file": "cloud_04.npy",
+      "n": 3621,
+      "k": 50
+    },
+    {
+      "id": "cloud_05",
+      "file": "cloud_05.npy",
+      "n": 872,
+      "k": 65
+    },
+    {
+      "id": "cloud_06",
+      "file": "cloud_06.npy",
+      "n": 2457,
+      "k": 50
+    },
+    {
+      "id": "cloud_07",
+      "file": "cloud_07.npy",
+      "n": 2990,
+      "k": 65
+    }
+  ],
+  "dim": 3,
+  "note": "Example clouds. The graded panel is drawn the same way."
+}

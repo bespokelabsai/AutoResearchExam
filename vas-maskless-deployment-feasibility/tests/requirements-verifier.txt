@@ -1,0 +1,2 @@
+pytest==9.1.1
+pytest-json-ctrf==0.5.3

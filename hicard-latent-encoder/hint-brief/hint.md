@@ -1,0 +1,1 @@
+The downstream model is a fixed random forest and your encoding is fitted without ever seeing the target, so the columns you emit have to be coordinates that a threshold split can use, and the only signal available for placing a category is how the numeric covariates behave inside it.

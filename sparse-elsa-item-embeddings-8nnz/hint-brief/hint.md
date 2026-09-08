@@ -1,0 +1,1 @@
+The scoring rule is given explicitly and depends on the embeddings only through the item-item matrix they form, while the number of dimensions is effectively unconstrained and only the nonzeros per row are capped — so the real decision is which item relationships to spend each row's budget on.

@@ -1,0 +1,1 @@
+The penalty is flat until the failure rate reaches the cap and only then falls, so failures below the cap are free and a policy that stays well inside it is giving away reward for nothing; and with exponential traversal costs the chance of finishing within the remaining budget is available in closed form.

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "fin_00",
+    "seed": 314159265,
+    "prompt": "A snow leopard picks its way along a rocky ledge in thin mountain light, its thick tail sweeping behind it."
+  },
+  {
+    "id": "fin_01",
+    "seed": 271828182,
+    "prompt": "A glassblower turns a molten orange bubble at the end of a long pipe, the furnace glowing behind the workbench."
+  },
+  {
+    "id": "fin_02",
+    "seed": 161803398,
+    "prompt": "A wooden rowboat drifts through morning fog on a still lake, reeds parting quietly around the bow."
+  },
+  {
+    "id": "fin_03",
+    "seed": 141421356,
+    "prompt": "A crowd of commuters moves through a bright subway concourse, escalators carrying people up toward the daylight."
+  },
+  {
+    "id": "fin_04",
+    "seed": 577215664,
+    "prompt": "A jellyfish pulses slowly through deep blue water, its translucent bell lit from above by shafts of light."
+  },
+  {
+    "id": "fin_05",
+    "seed": 693147180,
+    "prompt": "A farmer walks between rows of a vineyard at sunset, dust rising softly around his boots."
+  }
+]

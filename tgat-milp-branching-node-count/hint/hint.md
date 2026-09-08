@@ -1,0 +1,9 @@
+# Hint
+
+From prior autonomous-research runs on this task. Directions only, no tuned constants.
+
+- **Don't imitate strong branching — do it.** Training a ranker on strong-branching decisions is the obvious framing, and several runs did it well and landed mid-pack. The highest scores came from **reconstructing the node LP from the observation arrays and running real strong branching at grade time**, solving the two child LPs for a shortlist with the linear-programming solver already bundled with the numerical stack and scoring by the product of the bound improvements. Verify the reconstruction against the solver's own probing values before trusting it.
+- **The whole difficulty is the time budget** — a capped run is far worse than a mediocre one. Make the policy self-throttling: shortlist by a cheap score and only strong-branch the top few, cap time per decision *and* cumulative strong-branching time, fall back when the remaining wall clock drops below a reserve, and tier by depth or cutoff so full strong branching happens near the root where decisions are worth most.
+- Disable the solver's presolve for these tiny child LPs. If you reuse a solver object across calls, watch for model-state carry-over — one run's warm-start attempt regressed for exactly that reason.
+- **The cheap rule matters because it runs most of the time.** Most-fractional is poor; objective coefficient times a row-scarcity or degree term times a fractionality-centrality term with a tuned exponent worked. Adding **per-variable pseudocosts accumulated across the instance** turns it into a reliability rule, and blending them at *all* observation counts beat the usual "only trust after k observations" gate.
+- Score with the geometric mean of node counts over several disjoint seed panels, report capped runs separately, and run panels under the grader's parallel contention.

@@ -1,0 +1,1 @@
+Score is conditional on coverage clearing a fixed level, so it is a cliff and not a trade-off: length only counts once validity holds, which makes the unused coverage margin the thing being spent, and it is not the same size in every regime the panel contains.

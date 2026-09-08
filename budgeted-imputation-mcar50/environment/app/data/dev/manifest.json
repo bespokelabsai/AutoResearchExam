@@ -1,0 +1,113 @@
+{
+  "missing_rate": 0.5,
+  "datasets": [
+    {
+      "id": "dev1",
+      "file": "dev1.npz",
+      "source": "Bike_Sharing_Demand",
+      "n_rows": 16984,
+      "n_features": 6,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        30615,
+        79312,
+        26369,
+        71673,
+        56378,
+        80138,
+        72677
+      ]
+    },
+    {
+      "id": "dev2",
+      "file": "dev2.npz",
+      "source": "wine_quality",
+      "n_rows": 5318,
+      "n_features": 11,
+      "n_train": 4255,
+      "n_eval": 1063,
+      "seeds": [
+        72644,
+        86588,
+        68686,
+        21963,
+        30836,
+        22644,
+        36510
+      ]
+    },
+    {
+      "id": "dev3",
+      "file": "dev3.npz",
+      "source": "delays_zurich_transport",
+      "n_rows": 3526,
+      "n_features": 8,
+      "n_train": 2821,
+      "n_eval": 705,
+      "seeds": [
+        72900,
+        75973,
+        28715,
+        26999,
+        60207,
+        14546,
+        49960
+      ]
+    },
+    {
+      "id": "dev4",
+      "file": "dev4.npz",
+      "source": "house_sales",
+      "n_rows": 20000,
+      "n_features": 15,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        62334,
+        74597,
+        49445,
+        75161,
+        14619,
+        83965,
+        71728
+      ]
+    },
+    {
+      "id": "dev5",
+      "file": "dev5.npz",
+      "source": "Brazilian_houses",
+      "n_rows": 10228,
+      "n_features": 8,
+      "n_train": 8183,
+      "n_eval": 2045,
+      "seeds": [
+        79767,
+        57676,
+        30019,
+        33717,
+        15457,
+        46325,
+        78038
+      ]
+    },
+    {
+      "id": "dev6",
+      "file": "dev6.npz",
+      "source": "Ailerons",
+      "n_rows": 13750,
+      "n_features": 33,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        74029,
+        74447,
+        68763,
+        20736,
+        50761,
+        85855,
+        69837
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "beta1": 0.9,
+  "beta2": 0.95,
+  "bias": true,
+  "block_permutation_seed": 1234,
+  "block_size": 1024,
+  "grad_clip": 1.0,
+  "learning_rate": 0.0006,
+  "max_steps": 1500,
+  "micro_batch_size": 16,
+  "min_lr": 6e-05,
+  "n_embd": 768,
+  "n_head": 12,
+  "n_layer": 12,
+  "seed": 1234,
+  "tokens_per_step": 131072,
+  "vocab_size": 50257,
+  "warmup_steps": 100,
+  "weight_decay": 0.1
+}

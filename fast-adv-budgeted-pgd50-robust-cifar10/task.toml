@@ -1,0 +1,37 @@
+artifacts = ["/app/output"]
+
+[metadata]
+category = "Model Training and ML Infrastructure"
+subcategory = "Training loops"
+task_objective = ["Implement", "Optimize", "Secure or harden"]
+artifact_type = ["Single script or program", "Generated output artifact"]
+expert_time_estimate_hours = 4.0
+metric_name = "PGD-50 robust accuracy (percent) on the sealed 10,000-image CIFAR-10 test split at eps=8/255"
+metric_objective = "maximize"
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]
+timeout_sec = 21600.0
+
+[verifier]
+timeout_sec = 7200.0
+environment_mode = "separate"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 14400.0
+cpus              = 4
+memory_mb         = 16384
+gpus              = 1
+gpu_type          = "H100"
+boot_disk_gb       = 300
+storage_mb        = 307200
+network_mode      = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]

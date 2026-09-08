@@ -1,0 +1,35 @@
+# AutoResearchBench Tasks
+
+This private repository contains the 29 tasks published in the AutoResearchBench preview. Folder slugs and display names match the [AutoResearchBench blog](https://anirudhabspk.github.io/ARB-prep/blog.html).
+
+## Tasks
+
+- [ACT tensor sparse panel imputation](./act-tensor-sparse-panel-imputation-r2)
+- [ActivePrune unlabeled pool pruning](./activeprune-al-unlabeled-pool-pruning)
+- [Budgeted Covtype dual market](./budgeted-covtype-dual-market-open)
+- [Budgeted imputation MCAR 50](./budgeted-imputation-mcar50)
+- [CARPS star discrepancy subset selection](./carps-star-discrepancy-subset-select)
+- [CausalPFN CATE PEHE](./causalpfn-cate-pehe-ihdp-surfaceb)
+- [CausalRivers held out station graph AUROC](./causalrivers-heldout-station-graph-auroc)
+- [Waterbirds group robust coreset selection](./coreset-selection-group-robust-waterbirds)
+- [CPU decoder graph executor](./cpu-decoder-graph-executor)
+- [CPU LLM decode throughput](./cpu-llm-decode-throughput)
+- [DCTabEval pooled categorical statistics](./dctabeval-aeac-pooled-cat-statistics)
+- [FastAdv budgeted PGD50](./fast-adv-budgeted-pgd50-robust-cifar10)
+- [FasterCache video DiT policy](./fastercache-budgeted-video-dit-cache-policy)
+- [FasterGCG candidate token ranking](./fastergcg-candidate-token-rank-ccc)
+- [HalfCheetah advantage estimator](./grpo-rl-halfcheetah-advantage-estimator)
+- [HiCARD latent encoder](./hicard-latent-encoder)
+- [Label efficient risk estimator](./label-efficient-risk-estimator)
+- [Less Is More token budget selection](./less-is-more-pretrain-token-budget-selector)
+- [COCO 16 bit hash head](./mlh-coco-16bit-hash-head-map5000)
+- [RePPO reliable on policy control](./reppo-reliable-onpolicy-control-trainer)
+- [Sparse autoencoder dictionary learning](./sae-sparse-dict-nmse-frontier)
+- [Shortest valid CI L2 ECE](./shortest-valid-ci-l2-ece)
+- [Sketched Newton covariance estimator](./sketched-newton-cov-estimator)
+- [SOPCC online chance constrained policy](./sopcc-online-chance-constrained-policy)
+- [Sparse ELSA item embeddings](./sparse-elsa-item-embeddings-8nnz)
+- [SVDQuant W4A4 reconstruction](./svdquant-w4a4-psnr)
+- [TGAT MILP branching](./tgat-milp-branching-node-count)
+- [TIES CLIP model merging](./ties-merging-clip-vitl14-eight-task-merge)
+- [VAS maskless deployment feasibility](./vas-maskless-deployment-feasibility)

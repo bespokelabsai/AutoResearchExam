@@ -1,0 +1,37 @@
+artifacts = ["/app/submission"]
+
+[metadata]
+category = "Machine Learning and AI"
+subcategory = "Reinforcement Learning"
+task_objective = ["Implement", "Optimize"]
+artifact_type = ["Single script or program", "Generated output artifact"]
+expert_time_estimate_hours = 6.0
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]
+timeout_sec = 21600.0
+
+[verifier]
+timeout_sec = 2700.0
+environment_mode = "separate"
+
+[environment]
+build_timeout_sec = 3600.0
+cpus              = 8
+memory_mb         = 14336
+gpus              = 0
+boot_disk_gb      = 150
+network_mode      = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com"]
+
+[verifier.environment]
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 14336
+gpus = 0
+boot_disk_gb = 150
+network_mode = "no-network"

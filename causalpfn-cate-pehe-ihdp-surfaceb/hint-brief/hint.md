@@ -1,0 +1,1 @@
+All 200 graded datasets come from one generator with different seeds, and the metric averages per-dataset RMSE rather than pooling errors — so structure identified once transfers to every dataset, and a single dataset you get badly wrong costs as much as many you get slightly wrong.

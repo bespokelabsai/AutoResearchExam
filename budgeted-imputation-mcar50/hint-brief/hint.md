@@ -1,0 +1,1 @@
+Missingness is stated to be independent of the values, which makes every matrix you receive — including the one you are scoring on — an unbiased sample of the same joint distribution; and because the metric normalises each feature by its own variance, an easy feature and a hard one are worth the same.
