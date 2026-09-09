@@ -101,3 +101,26 @@ pie showData
 - [Sparse dictionary coding](./sae-sparse-dict-nmse-frontier)
 
 </details>
+
+## Citation
+
+If you use AutoResearchExam in your research, please cite:
+
+```bibtex
+@misc{ramesh2026autoresearchexam,
+  author = {Ramesh, Anirudha and
+            Devic, Siddartha and
+            Garg, Shivank and
+            Parulekar, Advait and
+            Mahnot, Drish and
+            Pimpalgaonkar, Shreyas and
+            Suresh, Vishnu and
+            Dimakis, Alex and
+            Sathiamoorthy, Maheswaran},
+  title = {{AutoResearchExam}},
+  year = {2026},
+  month = sep,
+  url = {https://benchmarks.bespokelabs.ai/autoresearchexam/},
+  note = {Published September 9, 2026}
+}
+```
