@@ -1,0 +1,1 @@
+The objective is a supremum over all anchored boxes, but the counting term only changes as a box crosses a point's coordinate — so the supremum is attained on a finite grid built from the points themselves, which makes the objective exactly computable and the whole difficulty combinatorial search under a fixed time budget.

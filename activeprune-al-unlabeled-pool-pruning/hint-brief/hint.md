@@ -1,0 +1,1 @@
+Everything except the candidate set is fixed, so the only thing you control is what the acquisition function is allowed to see — and on the first round there is no trained model yet, which makes that round's subset the one choice the loop cannot correct later.

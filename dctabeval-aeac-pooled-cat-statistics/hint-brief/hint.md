@@ -1,0 +1,1 @@
+The statement says the identifiers are opaque and that a ranking read off any single column earns nothing, which leaves combinations as the only place signal can be: how values in different columns occur together, counted over every row you are given rather than only the labelled ones.

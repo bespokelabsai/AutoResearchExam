@@ -1,0 +1,42 @@
+[
+  {
+    "id": "pub_00",
+    "seed": 100000001,
+    "prompt": "A red sailboat glides across a calm blue lake at sunrise, its white sail catching the first light while gentle ripples spread behind the hull."
+  },
+  {
+    "id": "pub_01",
+    "seed": 100000002,
+    "prompt": "A tabby cat stretches slowly on a sunlit wooden windowsill, dust motes drifting through the warm light behind it."
+  },
+  {
+    "id": "pub_02",
+    "seed": 100000003,
+    "prompt": "A street musician plays a battered brass trumpet on a rainy city corner at night, neon reflections shimmering on the wet pavement."
+  },
+  {
+    "id": "pub_03",
+    "seed": 100000004,
+    "prompt": "A hot air balloon with orange and yellow stripes rises above a patchwork of green farmland in the early morning mist."
+  },
+  {
+    "id": "pub_04",
+    "seed": 100000005,
+    "prompt": "A close view of a potter's hands shaping a spinning clay bowl on a wheel, wet clay glistening under a workshop lamp."
+  },
+  {
+    "id": "pub_05",
+    "seed": 100000006,
+    "prompt": "Waves crash against dark volcanic rocks on a windswept coastline, white foam scattering into the grey afternoon air."
+  },
+  {
+    "id": "pub_06",
+    "seed": 100000007,
+    "prompt": "A golden retriever bounds through tall summer grass toward the camera, ears flapping and wildflowers swaying in its wake."
+  },
+  {
+    "id": "pub_07",
+    "seed": 100000008,
+    "prompt": "A neon-lit noodle stall steams on a crowded night market street, a cook tossing vegetables in a blackened wok."
+  }
+]

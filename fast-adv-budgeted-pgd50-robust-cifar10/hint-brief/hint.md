@@ -1,0 +1,1 @@
+The grader rescales your logits before attacking precisely to stop scaling from weakening the attack, so nothing that merely obscures gradients will survive; with a fixed three-minute budget the only real choice is how to divide it between more training and a stronger inner attack.

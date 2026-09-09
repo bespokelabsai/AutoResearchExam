@@ -1,0 +1,1 @@
+Scores are ranked within each five-node sample, so only relative order inside a sample matters and calibration across samples is irrelevant; and the sample is a connected directed flow network, so the twenty pair scores are constrained by each other in a way independent pairwise scoring cannot express.

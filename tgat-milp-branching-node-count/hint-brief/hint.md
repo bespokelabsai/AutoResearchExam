@@ -1,0 +1,1 @@
+The floor is a simple extreme-value rule and the score is a geometric mean where any unsolved run is charged the full node cap, so avoiding disasters matters more than winning on typical instances; and you are handed the relaxation itself, which is enough to evaluate a candidate rather than predict it.

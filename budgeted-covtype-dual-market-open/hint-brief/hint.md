@@ -1,0 +1,1 @@
+The metric is balanced accuracy, so a class weighs the same however rare it is and one class you never label costs a full share; and since you choose which features to buy, the rows you are graded on are missing exactly the features your own policy declined.

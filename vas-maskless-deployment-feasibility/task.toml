@@ -1,0 +1,39 @@
+name = "predict_action_validity_masks"
+artifacts = ["/app/output"]
+
+[metadata]
+category = "Model Training and ML Infrastructure"
+subcategory = "Reinforcement learning"
+task_objective = ["Implement", "Optimize"]
+artifact_type = ["Single script or program", "Generated output artifact"]
+expert_time_estimate_hours = 3.0
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]
+timeout_sec = 14400.0
+user = "agent"
+
+[verifier]
+timeout_sec = 2400.0
+environment_mode = "separate"
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+cpus              = 8
+memory_mb         = 14336
+gpus              = 0
+boot_disk_gb      = 150
+
+[environment]
+build_timeout_sec = 3600.0
+cpus              = 8
+memory_mb         = 14336
+gpus              = 0
+boot_disk_gb      = 150
+network_mode      = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com"]

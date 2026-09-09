@@ -1,0 +1,1 @@
+The statement says the true value is computed in closed form from each instance's parameters — so it is a deterministic function of quantities you can estimate, and any approach that measures the optimizer's spread by replaying it is estimating something that could have been derived instead.

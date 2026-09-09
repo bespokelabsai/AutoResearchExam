@@ -1,0 +1,1 @@
+You return both the indices and the values, and the sparsity limit is stated as an average rather than a per-activation cap — so for any support you choose the values have a closed-form optimum, and the budget can be spent unevenly across activations.

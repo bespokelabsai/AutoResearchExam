@@ -1,0 +1,109 @@
+{
+  "instances": [
+    {
+      "iid": "s1000000",
+      "file": "cloud_00.npy",
+      "n": 3213,
+      "k": 30,
+      "baseline_seed": 1000000
+    },
+    {
+      "iid": "s1000001",
+      "file": "cloud_01.npy",
+      "n": 3016,
+      "k": 65,
+      "baseline_seed": 1000001
+    },
+    {
+      "iid": "s1000002",
+      "file": "cloud_02.npy",
+      "n": 866,
+      "k": 65,
+      "baseline_seed": 1000002
+    },
+    {
+      "iid": "s1000003",
+      "file": "cloud_03.npy",
+      "n": 1247,
+      "k": 50,
+      "baseline_seed": 1000003
+    },
+    {
+      "iid": "s1000004",
+      "file": "cloud_04.npy",
+      "n": 1100,
+      "k": 30,
+      "baseline_seed": 1000004
+    },
+    {
+      "iid": "s1000005",
+      "file": "cloud_05.npy",
+      "n": 2395,
+      "k": 50,
+      "baseline_seed": 1000005
+    },
+    {
+      "iid": "s1000006",
+      "file": "cloud_06.npy",
+      "n": 2111,
+      "k": 65,
+      "baseline_seed": 1000006
+    },
+    {
+      "iid": "s1000007",
+      "file": "cloud_07.npy",
+      "n": 1220,
+      "k": 65,
+      "baseline_seed": 1000007
+    },
+    {
+      "iid": "s1000008",
+      "file": "cloud_08.npy",
+      "n": 1042,
+      "k": 65,
+      "baseline_seed": 1000008
+    },
+    {
+      "iid": "s1000009",
+      "file": "cloud_09.npy",
+      "n": 3730,
+      "k": 50,
+      "baseline_seed": 1000009
+    },
+    {
+      "iid": "s1000010",
+      "file": "cloud_10.npy",
+      "n": 3310,
+      "k": 50,
+      "baseline_seed": 1000010
+    },
+    {
+      "iid": "s1000011",
+      "file": "cloud_11.npy",
+      "n": 3577,
+      "k": 50,
+      "baseline_seed": 1000011
+    },
+    {
+      "iid": "s1000012",
+      "file": "cloud_12.npy",
+      "n": 2472,
+      "k": 65,
+      "baseline_seed": 1000012
+    },
+    {
+      "iid": "s1000013",
+      "file": "cloud_13.npy",
+      "n": 2098,
+      "k": 50,
+      "baseline_seed": 1000013
+    },
+    {
+      "iid": "s1000014",
+      "file": "cloud_14.npy",
+      "n": 3847,
+      "k": 65,
+      "baseline_seed": 1000014
+    }
+  ]
+}

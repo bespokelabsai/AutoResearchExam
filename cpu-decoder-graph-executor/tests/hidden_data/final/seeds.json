@@ -1,0 +1,17 @@
+{
+ "seeds": [
+  2200000,
+  2200001,
+  2200002,
+  2200003,
+  2200004,
+  2200005,
+  2200006,
+  2200007,
+  2200008,
+  2200009,
+  2200010,
+  2200011
+ ],
+ "note": "sealed instance seeds; disjoint from the public block and from the other split"
+}

@@ -1,0 +1,18 @@
+--index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://pypi.org/simple
+numpy==2.3.4
+scipy==1.16.3
+scikit-learn==1.7.2
+pyscipopt==6.2.1
+torch==2.9.1+cpu
+filelock==3.32.3
+fsspec==2026.7.0
+jinja2==3.1.6
+joblib==1.5.3
+markupsafe==3.0.3
+mpmath==1.3.0
+networkx==3.6.1
+setuptools==84.0.0
+sympy==1.14.0
+threadpoolctl==3.6.0
+typing_extensions==4.16.0

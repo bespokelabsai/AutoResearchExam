@@ -1,0 +1,1 @@
+You are compared against the uncached run from the same starting latent, and the steps form one sequential refinement — so an approximation introduced at a step is carried and compounded by every step after it, which makes when you spend the budget matter more than how you fill the gaps.

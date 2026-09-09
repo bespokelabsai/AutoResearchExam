@@ -1,0 +1,1 @@
+The values are stated to be cross-sectional ranks rescaled to a fixed interval, so their marginals are uniform by construction and any Gaussian or linear conditional model is misspecified until they are transformed; the statement also says missingness varies enormously between firms, which makes the pattern itself informative.

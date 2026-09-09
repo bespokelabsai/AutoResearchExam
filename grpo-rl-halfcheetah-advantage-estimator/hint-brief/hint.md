@@ -1,0 +1,1 @@
+The harness is stated not to normalise, clip or rescale what you return, so the scale of your array is not a free choice — it sets the size of the policy update directly, and its behaviour over the run interacts with whatever schedule the fixed trainer already applies.

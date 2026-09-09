@@ -1,0 +1,1 @@
+Both weights and activations are quantised to four bits, but only the weights get a low-rank correction term whose rank you choose — so the correction has to absorb what the weight quantiser cannot represent, and the calibration prompts exist because the activation side has no such term and can only be handled by rescaling.

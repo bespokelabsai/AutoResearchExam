@@ -1,0 +1,1 @@
+You are scored on the policy's return, not on how well the mask matches, and the observation encoder is documented — so most of the mask is decodable exactly, and what remains is that an error costs whatever the affected action was worth rather than one unit of accuracy.

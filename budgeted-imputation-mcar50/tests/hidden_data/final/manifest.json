@@ -1,0 +1,77 @@
+{
+  "missing_rate": 0.5,
+  "datasets": [
+    {
+      "id": "f1",
+      "file": "f1.npz",
+      "source": "nyc-taxi-green-dec-2016",
+      "n_rows": 20000,
+      "n_features": 9,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        55074,
+        36481,
+        50471,
+        85394,
+        72916,
+        13221,
+        89674
+      ]
+    },
+    {
+      "id": "f2",
+      "file": "f2.npz",
+      "source": "sulfur",
+      "n_rows": 10081,
+      "n_features": 6,
+      "n_train": 8065,
+      "n_eval": 2016,
+      "seeds": [
+        71924,
+        27470,
+        80931,
+        68457,
+        59126,
+        76829,
+        64891
+      ]
+    },
+    {
+      "id": "f3",
+      "file": "f3.npz",
+      "source": "pol",
+      "n_rows": 14958,
+      "n_features": 26,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        86393,
+        46146,
+        13829,
+        35670,
+        27766,
+        73616,
+        10910
+      ]
+    },
+    {
+      "id": "f4",
+      "file": "f4.npz",
+      "source": "houses",
+      "n_rows": 20000,
+      "n_features": 8,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        81584,
+        86934,
+        69383,
+        75427,
+        29508,
+        58091,
+        65785
+      ]
+    }
+  ]
+}

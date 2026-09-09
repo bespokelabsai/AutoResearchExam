@@ -1,0 +1,9 @@
+# Hint
+
+From prior autonomous-research runs on this task. Directions only, no tuned constants.
+
+- **Decode the observation, don't learn it.** It is a structured encoding of the game state — invert it and write deterministic rules for validity. Every run that did this reproduced the oracle exactly for almost every action, while a trained network topped out well below and scored far worse. Only actions depending on state the observation does not expose need inference; there, per-action decision trees on the *decoded* features beat a network on the raw vector, and **trial-and-observe** (probe once, watch whether the state changed, remember per depth) works well.
+- **The real insight: the mask is a control channel, not just a prediction target.** A mask with a single `True` **forces** the frozen policy's action, so reproducing the oracle merely restores training-time behaviour. The score climbs much further when the predictor also steers — forcing high-value one-shot achievements the policy otherwise skips (crafting steps in tier order, first-time placements, harvesting an adjacent resource, descending, drinking when safe), blocking valid-but-worthless actions, and salvaging cheap unachieved objectives in the last few steps. This roughly doubled the margin over the exact-mask baseline.
+- Discipline that made steering safe: **only ever force an action the exact rules say is valid**, measure each rule's opportunity cost, and prefer *filtering* over forcing wherever a filter suffices.
+- Navigation is worth building: maintain a map across the episode, search toward stairs or unexplored frontier, and apply it **additively** to discourage moves that lead away. Verify the tracker against displacement ground truth before trusting it.
+- `reset` must clear all per-episode state, and the mask must never be all-`False`.

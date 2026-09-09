@@ -1,0 +1,1 @@
+A run only counts if it is above the bar at every one of the last ten checkpoints, on all seeds — so this rewards a procedure that converges and then stops moving, and a run still improving at the end scores the same as one that never learned.
