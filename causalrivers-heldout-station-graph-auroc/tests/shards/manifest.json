@@ -1,0 +1,26 @@
+{
+ "sealed_series": {
+  "name": "sealed_series",
+  "shape": [
+   350,
+   175296
+  ],
+  "dtype": "float32",
+  "axis": 0,
+  "sha256_bytes": "c8201b6fda2d5f2995a4d30410ed03259edb86c70248bc00edef4e907ee2b1d7",
+  "shards": [
+   {
+    "file": "sealed_series.00.npz",
+    "lo": 0,
+    "hi": 175,
+    "bytes": 12944233
+   },
+   {
+    "file": "sealed_series.01.npz",
+    "lo": 175,
+    "hi": 350,
+    "bytes": 10495194
+   }
+  ]
+ }
+}

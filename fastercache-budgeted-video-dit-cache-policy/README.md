@@ -1,0 +1,5 @@
+# Accelerating video diffusion by reusing predictions
+
+*Category: Systems and efficiency. Subcategory: Inference.*
+
+The agent must reduce the cost of a fixed video diffusion model while keeping its generated videos close to the original output. The model refines a video over 50 steps and normally runs its transformer twice per step: once using the text prompt and once without it, for 100 evaluations total. At each step, the agent chooses to run both evaluations, run only the prompted one, or skip both, while using no more than 62 evaluations overall. Whenever an evaluation is skipped, the agent must reconstruct the missing prediction from earlier results or the current generation state so refinement can continue. It may use fixed caching intervals, preserve evaluations during sensitive early steps, detect when predictions are changing rapidly, or extrapolate previous predictions. The policy is evaluated on unseen prompts by comparing its videos with uncached videos generated from the same starting noise. Mean PSNR measures their pixel-level similarity; higher is better.

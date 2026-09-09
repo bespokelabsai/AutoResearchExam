@@ -1,0 +1,42 @@
+artifacts = ["/app/output"]
+
+[metadata]
+task_slug = "less-is-more-pretrain-token-budget-selector"
+title = "Spend a pretraining token budget: write the corpus selector that minimises held-out perplexity"
+category = "Model Training and ML Infrastructure"
+subcategory = "Data loading and training pipelines"
+expert_time_estimate_hours = 8.0
+objective = "maximize"
+metric_name = "percent reduction in held-out perplexity of the pinned 124M GPT trained on the agent-selected <=125M-token subset of the sealed 250M-token pool, relative to the same pinned trainer run on the entire pool"
+reward_map = "rational_squash"
+degenerate_reward = 0.10
+graded_gpu = "H100"
+dataset = "allenai/c4 (en and en.noclean), revision 1588ec454efa1a09f29cd18ddd04fe05fc8653a2"
+notes = "Open-ended: continuous reward in [0,1], no threshold, no reference solution. Anchors and measurements are never disclosed to the agent."
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]
+timeout_sec = 28800.0
+user = "agent"
+
+[verifier]
+timeout_sec = 14400.0
+environment_mode = "separate"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 10800.0
+cpus = 8
+memory_mb = 32768
+gpus = 1
+gpu_types = ["H100"]
+storage_mb = 307200
+network_mode = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]

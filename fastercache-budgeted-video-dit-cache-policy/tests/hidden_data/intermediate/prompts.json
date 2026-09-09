@@ -1,0 +1,32 @@
+[
+  {
+    "id": "int_00",
+    "seed": 730914552,
+    "prompt": "A grey wolf pads across a snowy clearing at dusk, breath clouding in the cold air as pine branches sway behind it."
+  },
+  {
+    "id": "int_01",
+    "seed": 481203977,
+    "prompt": "An old fisherman mends a green net on a weathered wooden dock, gulls wheeling over the harbour behind him."
+  },
+  {
+    "id": "int_02",
+    "seed": 615487310,
+    "prompt": "A time-lapse of thick clouds rolling over a jagged mountain ridge, sunlight sweeping across the bare rock face."
+  },
+  {
+    "id": "int_03",
+    "seed": 209873466,
+    "prompt": "A hummingbird hovers beside a scarlet trumpet flower, wings blurred, the garden soft and green behind it."
+  },
+  {
+    "id": "int_04",
+    "seed": 884512039,
+    "prompt": "A yellow tram rattles down a steep cobbled street lined with pastel houses, laundry fluttering from the balconies."
+  },
+  {
+    "id": "int_05",
+    "seed": 350996214,
+    "prompt": "A blacksmith hammers glowing orange steel on an anvil, sparks arcing into the dim interior of the forge."
+  }
+]

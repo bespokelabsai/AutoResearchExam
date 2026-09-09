@@ -1,0 +1,41 @@
+artifacts = ["/app/solution"]
+
+[metadata]
+task_slug = "reppo-reliable-onpolicy-control-trainer"
+category = "Model Training and ML Infrastructure"
+subcategory = "Model Training and Alignment"
+metric_name = "reliable_success_fraction"
+objective = "maximize"
+graded_deliverable = "/app/solution/trainer.py"
+device = "cpu"
+expert_time_estimate_hours = 12.0
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]
+timeout_sec = 14400.0
+user = "agent"
+
+[verifier]
+timeout_sec = 2400.0
+environment_mode = "separate"
+
+[environment]
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 14336
+gpus = 0
+storage_mb = 153600
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com"]
+
+[verifier.environment]
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 14336
+gpus = 0
+storage_mb = 153600
+network_mode = "no-network"

@@ -1,0 +1,44 @@
+{
+ "dev_a_series": {
+  "name": "dev_a_series",
+  "shape": [
+   175296,
+   494
+  ],
+  "dtype": "float32",
+  "axis": 1,
+  "sha256_bytes": "61ec1f66d86fae552311231f8558cd6cc3db57a74dd3ecfb126988d6643b33bd",
+  "shards": [
+   {
+    "file": "dev_a_series.00.npz",
+    "lo": 0,
+    "hi": 247,
+    "bytes": 30875633
+   },
+   {
+    "file": "dev_a_series.01.npz",
+    "lo": 247,
+    "hi": 494,
+    "bytes": 30325774
+   }
+  ]
+ },
+ "dev_b_series": {
+  "name": "dev_b_series",
+  "shape": [
+   175296,
+   259
+  ],
+  "dtype": "float32",
+  "axis": 1,
+  "sha256_bytes": "7f1b3c14a55b475dcdab07959953bedc3fe6a346a3db3dfa848073d2411b9058",
+  "shards": [
+   {
+    "file": "dev_b_series.00.npz",
+    "lo": 0,
+    "hi": 259,
+    "bytes": 19815294
+   }
+  ]
+ }
+}

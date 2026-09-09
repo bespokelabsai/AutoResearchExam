@@ -1,0 +1,77 @@
+{
+  "missing_rate": 0.5,
+  "datasets": [
+    {
+      "id": "i1",
+      "file": "i1.npz",
+      "source": "medical_charges",
+      "n_rows": 20000,
+      "n_features": 3,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        43074,
+        12214,
+        80208,
+        65534,
+        77346,
+        53490,
+        20035
+      ]
+    },
+    {
+      "id": "i2",
+      "file": "i2.npz",
+      "source": "house_16H",
+      "n_rows": 20000,
+      "n_features": 16,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        62882,
+        71288,
+        87104,
+        63866,
+        45874,
+        19984,
+        58949
+      ]
+    },
+    {
+      "id": "i3",
+      "file": "i3.npz",
+      "source": "yprop_4_1",
+      "n_rows": 8774,
+      "n_features": 42,
+      "n_train": 7020,
+      "n_eval": 1754,
+      "seeds": [
+        86168,
+        81716,
+        69856,
+        87336,
+        15985,
+        69662,
+        83425
+      ]
+    },
+    {
+      "id": "i4",
+      "file": "i4.npz",
+      "source": "MiamiHousing2016",
+      "n_rows": 13922,
+      "n_features": 13,
+      "n_train": 10000,
+      "n_eval": 2500,
+      "seeds": [
+        73817,
+        86396,
+        68746,
+        83796,
+        16590,
+        19037,
+        66359
+      ]
+    }
+  ]
+}

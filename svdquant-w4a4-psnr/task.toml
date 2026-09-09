@@ -1,0 +1,34 @@
+artifacts = ["/app/output"]
+
+[metadata]
+category = "Machine Learning and AI"
+subcategory = "ML serving and deployment"
+task_objective = ["Optimize", "Transform", "Implement"]
+artifact_type = ["Codebase", "Generated output artifact"]
+expert_time_estimate_hours = 4.0
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]
+timeout_sec = 21600.0
+
+[verifier]
+timeout_sec = 14400.0
+environment_mode = "separate"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 10800
+cpus = 4
+memory_mb = 32768
+gpus = 1
+gpu_types = ["H100"]
+storage_mb = 307200
+network_mode = "allowlist"
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+]

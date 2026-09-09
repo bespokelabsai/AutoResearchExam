@@ -1,0 +1,6 @@
+--index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://pypi.org/simple
+torch==2.13.0+cpu
+numpy==2.5.2
+safetensors==0.8.0
+huggingface_hub==1.28.0
