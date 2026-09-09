@@ -102,6 +102,8 @@ pie showData
 
 </details>
 
+The AutoResearchExam Harness will be open sourced shortly.
+
 ## Citation
 
 If you use AutoResearchExam in your research, please cite:
