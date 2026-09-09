@@ -1,0 +1,50 @@
+cff-version: 1.2.0
+message: If you use AutoResearchExam in your research, please cite this work.
+title: AutoResearchExam
+authors:
+- given-names: Anirudha
+  family-names: Ramesh
+- given-names: Siddartha
+  family-names: Devic
+- given-names: Shivank
+  family-names: Garg
+- given-names: Advait
+  family-names: Parulekar
+- given-names: Drish
+  family-names: Mahnot
+- given-names: Shreyas
+  family-names: Pimpalgaonkar
+- given-names: Vishnu
+  family-names: Suresh
+- given-names: Alex
+  family-names: Dimakis
+- given-names: Maheswaran
+  family-names: Sathiamoorthy
+date-released: '2026-09-09'
+url: https://benchmarks.bespokelabs.ai/autoresearchexam/
+repository-code: https://github.com/bespokelabsai/AutoResearchExam
+preferred-citation:
+  type: generic
+  title: AutoResearchExam
+  authors:
+  - given-names: Anirudha
+    family-names: Ramesh
+  - given-names: Siddartha
+    family-names: Devic
+  - given-names: Shivank
+    family-names: Garg
+  - given-names: Advait
+    family-names: Parulekar
+  - given-names: Drish
+    family-names: Mahnot
+  - given-names: Shreyas
+    family-names: Pimpalgaonkar
+  - given-names: Vishnu
+    family-names: Suresh
+  - given-names: Alex
+    family-names: Dimakis
+  - given-names: Maheswaran
+    family-names: Sathiamoorthy
+  year: 2026
+  month: 9
+  url: https://benchmarks.bespokelabs.ai/autoresearchexam/
