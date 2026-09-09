@@ -10,7 +10,6 @@ objective = "maximize"
 metric_name = "percent reduction in held-out perplexity of the pinned 124M GPT trained on the agent-selected <=125M-token subset of the sealed 250M-token pool, relative to the same pinned trainer run on the entire pool"
 reward_map = "rational_squash"
 degenerate_reward = 0.10
-build_gpu = "L40S"
 graded_gpu = "H100"
 dataset = "allenai/c4 (en and en.noclean), revision 1588ec454efa1a09f29cd18ddd04fe05fc8653a2"
 notes = "Open-ended: continuous reward in [0,1], no threshold, no reference solution. Anchors and measurements are never disclosed to the agent."
