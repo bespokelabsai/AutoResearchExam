@@ -102,7 +102,34 @@ pie showData
 
 </details>
 
-The AutoResearchExam Harness will be open sourced shortly.
+## Run with the harness
+
+Download the tasks and harness into separate folders:
+
+```bash
+mkdir autoresearch-exam-run && cd autoresearch-exam-run
+git clone https://github.com/bespokelabsai/AutoResearchExam.git github-tasks
+git clone https://github.com/bespokelabsai/AutoResearchExam-Terminus.git harness
+cd harness
+uv sync --python 3.12 --extra modal
+```
+
+Run one task on Modal:
+
+```bash
+uv run harbor run \
+  --path ../github-tasks/cpu-decoder-graph-executor \
+  --agent autoresearchexam-terminus \
+  --model openai/gpt-5.6-sol \
+  --env modal \
+  --plugin autoresearch-exam \
+  --pk max_iterations=1 \
+  --pk max_duration_seconds=3600
+```
+
+Use `--path ../github-tasks` to run all tasks. Use `--env docker` to run with local Docker.
+
+[AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus) provides the harness and the code used to compute AUARC.
 
 ## Citation
 
