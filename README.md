@@ -4,17 +4,7 @@ This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks
 
 ## Task areas
 
-```mermaid
-pie showData
-    title Tasks by research area
-    "Model training" : 8
-    "Algorithms and optimization" : 6
-    "Data engineering and curation" : 6
-    "Systems and efficiency" : 4
-    "Evaluation, calibration, and robustness" : 3
-    "AI safety and alignment" : 1
-    "Interpretability" : 1
-```
+![Tasks by research area](./assets/task-areas.png)
 
 <details>
 <summary>View tasks by area →</summary>
