@@ -1,34 +1,46 @@
-artifacts = ["/app/output"]
+schema_version = "1.4"
+artifacts = [ "/app/output",]
+
+[task]
+name = "bespokelabs/svdquant-w4a4-psnr"
+version = "1.0.0"
+description = ""
+keywords = [ "autoresearch", "machine-learning", "benchmark",]
+[[task.authors]]
+name = "Bespoke Labs"
 
 [metadata]
 category = "Machine Learning and AI"
 subcategory = "ML serving and deployment"
-task_objective = ["Optimize", "Transform", "Implement"]
-artifact_type = ["Codebase", "Generated output artifact"]
+task_objective = [ "Optimize", "Transform", "Implement",]
+artifact_type = [ "Codebase", "Generated output artifact",]
 expert_time_estimate_hours = 4.0
+
+[verifier]
+network_mode = "no-network"
+timeout_sec = 14400.0
+environment_mode = "separate"
+collect = []
+
+[verifier.env]
 
 [agent]
 network_mode = "allowlist"
-allowed_hosts = [
-    "api.openai.com",
-    "api.anthropic.com",
-]
+allowed_hosts = [ "api.openai.com", "api.anthropic.com",]
 timeout_sec = 21600.0
 
-[verifier]
-timeout_sec = 14400.0
-environment_mode = "separate"
-network_mode = "no-network"
-
 [environment]
-build_timeout_sec = 10800
+network_mode = "allowlist"
+allowed_hosts = [ "api.openai.com", "api.anthropic.com",]
+build_timeout_sec = 10800.0
+os = "linux"
 cpus = 4
 memory_mb = 32768
-gpus = 1
-gpu_types = ["H100"]
 storage_mb = 307200
-network_mode = "allowlist"
-allowed_hosts = [
-    "api.openai.com",
-    "api.anthropic.com",
-]
+gpus = 1
+gpu_types = [ "H100",]
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]

@@ -1,38 +1,57 @@
-artifacts = ["/app/output"]
+schema_version = "1.4"
+artifacts = [ "/app/output",]
+
+[task]
+name = "bespokelabs/mlh-coco-16bit-hash-head-map5000"
+version = "1.0.0"
+description = ""
+keywords = [ "autoresearch", "machine-learning", "benchmark",]
+[[task.authors]]
+name = "Bespoke Labs"
 
 [metadata]
 category = "Machine Learning and AI"
 subcategory = "Unsupervised and representation learning"
-task_objective = ["Implement", "Optimize"]
-artifact_type = ["Single script or program"]
+task_objective = [ "Implement", "Optimize",]
+artifact_type = [ "Single script or program",]
 expert_time_estimate_hours = 4.0
-
-[agent]
-network_mode = "allowlist"
-allowed_hosts = [
-    "api.openai.com",
-    "api.anthropic.com",
-]
-timeout_sec = 14400.0
-user = "agent"
 
 [verifier]
 timeout_sec = 1800.0
 environment_mode = "separate"
+collect = []
 
-[environment]
-build_timeout_sec = 3600.0
-cpus              = 8
-memory_mb         = 14336
-gpus              = 0
-storage_mb = 153600
-network_mode      = "allowlist"
-allowed_hosts = ["api.openai.com", "api.anthropic.com"]
+[verifier.env]
 
 [verifier.environment]
+network_mode = "no-network"
 build_timeout_sec = 3600.0
-cpus              = 8
-memory_mb         = 14336
-gpus              = 0
+os = "linux"
+cpus = 8
+memory_mb = 14336
 storage_mb = 153600
-network_mode      = "no-network"
+gpus = 0
+mcp_servers = []
+
+[verifier.environment.env]
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = [ "api.openai.com", "api.anthropic.com",]
+timeout_sec = 14400.0
+user = "agent"
+
+[environment]
+network_mode = "allowlist"
+allowed_hosts = [ "api.openai.com", "api.anthropic.com",]
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 8
+memory_mb = 14336
+storage_mb = 153600
+gpus = 0
+mcp_servers = []
+
+[environment.env]
+
+[solution.env]
