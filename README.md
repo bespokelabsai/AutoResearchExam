@@ -12,13 +12,13 @@ This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks
 config:
   themeVariables:
     fontFamily: 'Arial, Helvetica, sans-serif'
-    pie1: '#75B3AA'
-    pie2: '#8EB4D4'
-    pie3: '#B0A1CE'
-    pie4: '#E2C28C'
-    pie5: '#DEAA98'
-    pie6: '#B3C99C'
-    pie7: '#D0A9C1'
+    pie1: '#d8e5e4'
+    pie2: '#efc8bc'
+    pie3: '#e8ddbd'
+    pie4: '#cbd9ec'
+    pie5: '#e9d4dd'
+    pie6: '#d6e0c8'
+    pie7: '#dfd7ec'
     pieOpacity: 1
     pieStrokeColor: '#FFFFFF'
     pieStrokeWidth: '2px'
