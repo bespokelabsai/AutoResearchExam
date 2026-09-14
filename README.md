@@ -108,6 +108,8 @@ pie showData
 is the official harness for timed runs with repeated experiments and public
 validation feedback.
 
+Install [uv](https://docs.astral.sh/uv/), start Docker, and configure your model
+provider's credentials (`OPENAI_API_KEY` for the OpenAI example below).
 Download the tasks and harness into separate folders:
 
 ```bash
@@ -118,7 +120,8 @@ cd harness
 uv sync --python 3.12 --extra modal
 ```
 
-Run one task with the default 24-hour research budget on local Docker:
+Run one task with the default 24-hour research budget on local Docker.
+`harbor run` starts the full research and grading loop automatically:
 
 ```bash
 uv run harbor run \
@@ -133,8 +136,6 @@ uv run harbor run \
 
 Use `--path ../github-tasks` to run all tasks. The defaults allow up to 5000
 experiments and 50000 model turns within the 24-hour budget.
-
-The benchmark budget and AUARC horizon stay at 24 hours across environments.
 
 For Modal, use a shorter run, such as 22 hours for this CPU example, to leave
 room before its [24-hour sandbox timeout](https://modal.com/docs/guide/sandboxes#timeouts).
