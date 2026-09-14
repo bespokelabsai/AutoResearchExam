@@ -105,6 +105,9 @@ validation feedback.
 
 Install [uv](https://docs.astral.sh/uv/), start Docker, and configure your model
 provider's credentials (`OPENAI_API_KEY` for the OpenAI example below).
+Docker's default preflight checks for 32000 MiB of free space per trial for
+retained artifacts, plus that task's storage requirement, summed across all
+selected trials on the jobs host.
 Download the tasks and harness into separate folders:
 
 ```bash
@@ -126,14 +129,18 @@ uv run harbor run \
   --env docker \
   --plugin autoresearch-exam \
   --pk max_iterations=5000 \
-  --pk max_duration_seconds=86400
+  --pk max_duration_seconds=86400 \
+  --pk reasoning_effort=high
 ```
 
-Use `--path ../github-tasks` to run all tasks. The defaults allow up to 5000
-experiments and 50000 model turns within the 24-hour budget.
+Use `--path ../github-tasks` to run all tasks. The disk prerequisite above
+applies to all selected trials. The defaults allow up to 5000 experiments and
+50000 model turns within the 24-hour budget.
 
-For Modal, use a shorter run, such as 22 hours for this CPU example, to leave
-room before its [24-hour sandbox timeout](https://modal.com/docs/guide/sandboxes#timeouts).
+For a 22-hour Modal run of this CPU example, replace `--env docker` with
+`--env modal` and set `--pk max_duration_seconds=79200`. This also sets a 22-hour
+AUARC horizon and leaves room before its
+[24-hour sandbox timeout](https://modal.com/docs/guide/sandboxes#timeouts).
 
 Find saved runs in [Results](https://github.com/bespokelabsai/AutoResearchExam-Terminus#results),
 then [compute AUARC](https://github.com/bespokelabsai/AutoResearchExam-Terminus#compute-auarc).
