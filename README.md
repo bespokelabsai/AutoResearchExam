@@ -160,7 +160,7 @@ uv run harbor run \
   --plugin autoresearch-exam \
   --pk max_iterations=5000 \
   --pk max_duration_seconds=86400 \
-  --pk reasoning_effort=high
+  --pk reasoning_effort=max
 ```
 
 Use `--path ../github-tasks` to run all tasks. The disk prerequisite above
