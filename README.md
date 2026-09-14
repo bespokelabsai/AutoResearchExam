@@ -134,10 +134,7 @@ uv run harbor run \
 Use `--path ../github-tasks` to run all tasks. The defaults allow up to 5000
 experiments and 50000 model turns within the 24-hour budget.
 
-For this CPU decoder task on Modal, replace `--env docker` with `--env modal`
-and set `--pk max_duration_seconds=79200` (22 hours). Modal's 24-hour sandbox
-limit must also cover final grading and artifact collection. Other tasks may
-need more headroom; see the harness's [timing settings](https://github.com/bespokelabsai/AutoResearchExam-Terminus#run-all-tasks).
+The benchmark budget and AUARC horizon stay at 24 hours across environments.
 
 [AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus) provides the harness and the code used to compute AUARC.
 
