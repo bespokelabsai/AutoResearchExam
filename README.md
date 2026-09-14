@@ -118,20 +118,26 @@ cd harness
 uv sync --python 3.12 --extra modal
 ```
 
-Run one task on Modal:
+Run one task with the default 24-hour research budget on local Docker:
 
 ```bash
 uv run harbor run \
   --path ../github-tasks/cpu-decoder-graph-executor \
   --agent autoresearchexam-terminus \
   --model openai/gpt-5.6-sol \
-  --env modal \
+  --env docker \
   --plugin autoresearch-exam \
-  --pk max_iterations=1 \
-  --pk max_duration_seconds=3600
+  --pk max_iterations=5000 \
+  --pk max_duration_seconds=86400
 ```
 
-Use `--path ../github-tasks` to run all tasks. Use `--env docker` to run with local Docker.
+Use `--path ../github-tasks` to run all tasks. The defaults allow up to 5000
+experiments and 50000 model turns within the 24-hour budget.
+
+For this CPU decoder task on Modal, replace `--env docker` with `--env modal`
+and set `--pk max_duration_seconds=79200` (22 hours). Modal's 24-hour sandbox
+limit must also cover final grading and artifact collection. Other tasks may
+need more headroom; see the harness's [timing settings](https://github.com/bespokelabsai/AutoResearchExam-Terminus#run-all-tasks).
 
 [AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus) provides the harness and the code used to compute AUARC.
 
