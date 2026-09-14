@@ -8,6 +8,31 @@ This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks
 ## Task areas
 
 ```mermaid
+---
+config:
+  theme: base
+  themeVariables:
+    fontFamily: 'Arial, Helvetica, sans-serif'
+    pie1: '#75B3AA'
+    pie2: '#8EB4D4'
+    pie3: '#B0A1CE'
+    pie4: '#E2C28C'
+    pie5: '#DEAA98'
+    pie6: '#B3C99C'
+    pie7: '#D0A9C1'
+    pieOpacity: 1
+    pieStrokeColor: '#FFFFFF'
+    pieStrokeWidth: '2px'
+    pieOuterStrokeWidth: '0px'
+    pieTitleTextSize: '22px'
+    pieTitleTextColor: '#334155'
+    pieSectionTextSize: '16px'
+    pieSectionTextColor: '#253445'
+    pieLegendTextSize: '16px'
+    pieLegendTextColor: '#334155'
+  pie:
+    textPosition: 0.78
+---
 pie showData
     title Tasks by research area
     "Model training" : 8
