@@ -102,7 +102,11 @@ pie showData
 
 </details>
 
-## Run with the harness
+## Run with the official harness
+
+[AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus)
+is the official harness for timed runs with repeated experiments and public
+validation feedback.
 
 Download the tasks and harness into separate folders:
 
@@ -130,6 +134,18 @@ uv run harbor run \
 Use `--path ../github-tasks` to run all tasks. Use `--env docker` to run with local Docker.
 
 [AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus) provides the harness and the code used to compute AUARC.
+
+## Use your own harness
+
+You can run the same tasks with Claude Code, Codex, or another agent harness.
+Keep the task environment, graders, and time budget the same. Select each
+checkpoint by public validation and measure its private test score on the same
+saved artifact. Report test performance, but never use test scores to select
+checkpoints. Keep private test data, scores, and logs outside the agent
+environment throughout the run and checkpoint selection.
+
+Follow the [custom harness guide](https://github.com/bespokelabsai/AutoResearchExam-Terminus/blob/main/scripts/custom_harness.md)
+to record timestamped scores and compute AUARC with the existing script.
 
 ## Citation
 
