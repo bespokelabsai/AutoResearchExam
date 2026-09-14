@@ -10,7 +10,6 @@ This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks
 ```mermaid
 ---
 config:
-  theme: base
   themeVariables:
     fontFamily: 'Arial, Helvetica, sans-serif'
     pie1: '#75B3AA'
@@ -25,11 +24,9 @@ config:
     pieStrokeWidth: '2px'
     pieOuterStrokeWidth: '0px'
     pieTitleTextSize: '22px'
-    pieTitleTextColor: '#334155'
     pieSectionTextSize: '16px'
     pieSectionTextColor: '#253445'
     pieLegendTextSize: '16px'
-    pieLegendTextColor: '#334155'
   pie:
     textPosition: 0.78
 ---
