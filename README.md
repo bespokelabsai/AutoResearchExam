@@ -2,19 +2,12 @@
 
 This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks.bespokelabs.ai/autoresearchexam/).
 
+[Run with the official harness](#run-with-the-official-harness) or
+[use your own harness](#use-your-own-harness).
+
 ## Task areas
 
-```mermaid
-pie showData
-    title Tasks by research area
-    "Model training" : 8
-    "Algorithms and optimization" : 6
-    "Data engineering and curation" : 6
-    "Systems and efficiency" : 4
-    "Evaluation, calibration, and robustness" : 3
-    "AI safety and alignment" : 1
-    "Interpretability" : 1
-```
+![Task counts by research area: model training 8; algorithms and optimization 6; data engineering and curation 6; systems and efficiency 4; evaluation, calibration, and robustness 3; AI safety and alignment 1; interpretability 1.](assets/task-areas.svg)
 
 <details>
 <summary>View tasks by area →</summary>
@@ -140,7 +133,8 @@ experiments and 50000 model turns within the 24-hour budget.
 For Modal, use a shorter run, such as 22 hours for this CPU example, to leave
 room before its [24-hour sandbox timeout](https://modal.com/docs/guide/sandboxes#timeouts).
 
-[AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus) provides the harness and the code used to compute AUARC.
+Find saved runs in [Results](https://github.com/bespokelabsai/AutoResearchExam-Terminus#results),
+then [compute AUARC](https://github.com/bespokelabsai/AutoResearchExam-Terminus#compute-auarc).
 
 ## Use your own harness
 

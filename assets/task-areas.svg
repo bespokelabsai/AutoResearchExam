@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="436" viewBox="0 0 940 436" role="img" aria-labelledby="title description">
+<title id="title">Tasks by research area</title>
+<desc id="description">Model training: 8; Algorithms and optimization: 6; Data engineering and curation: 6; Systems and efficiency: 4; Evaluation, calibration, and robustness: 3; AI safety and alignment: 1; Interpretability: 1. Total: 29 tasks.</desc>
+<rect x="0.5" y="0.5" width="939" height="435" rx="14" fill="#ffffff" stroke="#e1e7e6"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="32" y="48" font-size="25" font-weight="700" fill="#183c39">29 tasks across 7 research areas</text>
+<text x="900" y="83" text-anchor="end" font-size="12" letter-spacing="1.3" fill="#62716f">TASKS</text>
+<text x="32" y="122" font-size="18" fill="#293c39">Model training</text>
+<rect x="423" y="107" width="431" height="18" rx="4" fill="#eff3f2"/>
+<rect x="423" y="107" width="431" height="18" rx="4" fill="#367d76"/>
+<text x="900" y="122" text-anchor="end" font-size="19" font-weight="700" fill="#183c39">8</text>
+<text x="32" y="167" font-size="18" fill="#293c39">Algorithms and optimization</text>
+<rect x="423" y="152" width="431" height="18" rx="4" fill="#eff3f2"/>
+<rect x="423" y="152" width="323.25" height="18" rx="4" fill="#367d76"/>
+<text x="900" y="167" text-anchor="end" font-size="19" font-weight="700" fill="#183c39">6</text>
+<text x="32" y="212" font-size="18" fill="#293c39">Data engineering and curation</text>
+<rect x="423" y="197" width="431" height="18" rx="4" fill="#eff3f2"/>
+<rect x="423" y="197" width="323.25" height="18" rx="4" fill="#367d76"/>
+<text x="900" y="212" text-anchor="end" font-size="19" font-weight="700" fill="#183c39">6</text>
+<text x="32" y="257" font-size="18" fill="#293c39">Systems and efficiency</text>
+<rect x="423" y="242" width="431" height="18" rx="4" fill="#eff3f2"/>
+<rect x="423" y="242" width="215.5" height="18" rx="4" fill="#367d76"/>
+<text x="900" y="257" text-anchor="end" font-size="19" font-weight="700" fill="#183c39">4</text>
+<text x="32" y="302" font-size="18" fill="#293c39">Evaluation, calibration, and robustness</text>
+<rect x="423" y="287" width="431" height="18" rx="4" fill="#eff3f2"/>
+<rect x="423" y="287" width="161.625" height="18" rx="4" fill="#367d76"/>
+<text x="900" y="302" text-anchor="end" font-size="19" font-weight="700" fill="#183c39">3</text>
+<text x="32" y="347" font-size="18" fill="#293c39">AI safety and alignment</text>
+<rect x="423" y="332" width="431" height="18" rx="4" fill="#eff3f2"/>
+<rect x="423" y="332" width="53.875" height="18" rx="4" fill="#367d76"/>
+<text x="900" y="347" text-anchor="end" font-size="19" font-weight="700" fill="#183c39">1</text>
+<text x="32" y="392" font-size="18" fill="#293c39">Interpretability</text>
+<rect x="423" y="377" width="431" height="18" rx="4" fill="#eff3f2"/>
+<rect x="423" y="377" width="53.875" height="18" rx="4" fill="#367d76"/>
+<text x="900" y="392" text-anchor="end" font-size="19" font-weight="700" fill="#183c39">1</text>
+</g>
+</svg>
