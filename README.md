@@ -7,39 +7,9 @@ This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks
 
 ## Task areas
 
-```mermaid
----
-config:
-  themeVariables:
-    fontFamily: 'Arial, Helvetica, sans-serif'
-    pie1: '#d8e5e4'
-    pie2: '#efc8bc'
-    pie3: '#e8ddbd'
-    pie4: '#cbd9ec'
-    pie5: '#e9d4dd'
-    pie6: '#d6e0c8'
-    pie7: '#dfd7ec'
-    pieOpacity: 1
-    pieStrokeColor: '#FFFFFF'
-    pieStrokeWidth: '2px'
-    pieOuterStrokeWidth: '0px'
-    pieTitleTextSize: '22px'
-    pieSectionTextSize: '16px'
-    pieSectionTextColor: '#253445'
-    pieLegendTextSize: '16px'
-  pie:
-    textPosition: 0.78
----
-pie showData
-    title Tasks by research area
-    "Model training" : 8
-    "Algorithms and optimization" : 6
-    "Data engineering and curation" : 6
-    "Systems and efficiency" : 4
-    "Evaluation, calibration, and robustness" : 3
-    "AI safety and alignment" : 1
-    "Interpretability" : 1
-```
+[![Tasks by research area: model training 8; algorithms and optimization 6; data engineering and curation 6; systems and efficiency 4; evaluation, calibration, and robustness 3; AI safety and alignment 1; interpretability 1.](assets/task-areas.svg)](https://benchmarks.bespokelabs.ai/autoresearchexam/#tasks)
+
+Click the chart to explore tasks by research area.
 
 <details>
 <summary>View tasks by area →</summary>
