@@ -170,6 +170,7 @@ applies to all selected trials. The defaults allow up to 5000 experiments and
 If running on Modal, use `--env modal` and reduce `max_duration_seconds` to leave
 room for grading before its
 [24-hour sandbox timeout](https://modal.com/docs/guide/sandboxes#timeouts).
+For this example, use `--pk max_duration_seconds=82200` (22h50m, about 23 hours).
 The chosen duration also sets the AUARC scoring window.
 
 Find saved runs in [Results](https://github.com/bespokelabsai/AutoResearchExam-Terminus#results),
