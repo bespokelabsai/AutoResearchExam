@@ -167,10 +167,11 @@ Use `--path ../github-tasks` to run all tasks. The disk prerequisite above
 applies to all selected trials. The defaults allow up to 5000 experiments and
 50000 model turns within the 24-hour budget.
 
-For a 22-hour Modal run of this CPU example, replace `--env docker` with
-`--env modal` and set `--pk max_duration_seconds=79200`. This also sets a 22-hour
-AUARC horizon and leaves room before its
+If running on Modal, use `--env modal` and reduce `max_duration_seconds` to leave
+room for grading before its
 [24-hour sandbox timeout](https://modal.com/docs/guide/sandboxes#timeouts).
+For this example, use `--pk max_duration_seconds=82200` (22h50m, about 23 hours).
+The chosen duration also sets the AUARC scoring window.
 
 Find saved runs in [Results](https://github.com/bespokelabsai/AutoResearchExam-Terminus#results),
 then [compute AUARC](https://github.com/bespokelabsai/AutoResearchExam-Terminus#compute-auarc).
