@@ -158,14 +158,18 @@ uv run harbor run \
   --model openai/gpt-5.6-sol \
   --env docker \
   --plugin autoresearch-exam \
-  --pk max_iterations=5000 \
+  --pk max_iterations=1000 \
   --pk max_duration_seconds=86400 \
+  --pk min_time_per_iteration=0 \
+  --pk max_turns=10000 \
+  --pk max_tokens=32000 \
   --pk reasoning_effort=max
 ```
 
 Use `--path ../github-tasks` to run all tasks. The disk prerequisite above
-applies to all selected trials. The defaults allow up to 5000 experiments and
-50000 model turns within the 24-hour budget.
+applies to all selected trials. This example uses the default benchmark settings:
+1000 experiments, 10000 model turns, 24 hours, 32000 tokens per response, and
+`max` reasoning effort, matching our Sol and Astra runs.
 
 If running on Modal, use `--env modal` and reduce `max_duration_seconds` to leave
 room for grading before its
