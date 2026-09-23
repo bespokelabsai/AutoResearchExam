@@ -4,7 +4,7 @@ set -u
 mkdir -p /logs/verifier
 chown root:root /logs/verifier 2>/dev/null || true
 chmod 755 /logs/verifier 2>/dev/null || true
-rm -f /logs/verifier/reward.txt /logs/verifier/ctrf.json /logs/verifier/metric.json
+rm -f /logs/verifier/reward.txt /logs/verifier/ctrf.json /logs/verifier/metric.json /logs/verifier/panel_results.json
 
 write_floor_reward_if_missing() {
   [ -s /logs/verifier/reward.txt ] || printf '0\n' > /logs/verifier/reward.txt

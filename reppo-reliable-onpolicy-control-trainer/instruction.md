@@ -1,13 +1,14 @@
-# Train control policies that hit a performance bar on every seed and hold it
+# Train control policies that reliably pass and keep improving
 
-Write a reinforcement-learning training procedure at `/app/solution/trainer.py`. The score is
-the **reliable-success fraction**. It is the fraction of runs whose policy reaches 90% of a
-reference level and stays there for the last ten evaluation checkpoints.
+Write a reinforcement-learning training procedure at `/app/solution/trainer.py`. Half the
+score rewards reliable success: reaching 90% of a reference level and staying there for
+the last ten evaluation checkpoints. Half rewards better raw returns beyond that passing
+threshold, averaged over the same checkpoints of every run.
 
 The grader runs your procedure from scratch 72 times. It uses six unseen continuous-control
 environments with twelve sealed random seeds each. Each run gets 400,000 environment
-interactions and 45 CPU-seconds. Nothing carries over between runs. Push the reliable-success
-fraction as high as you can. Higher is always better. A procedure that does no learning scores 0.
+interactions and 45 CPU-seconds. Nothing carries over between runs. Maximize both reliability
+and performance. Higher is always better.
 
 ## The deliverable
 
@@ -68,10 +69,32 @@ $$s_k = \mathrm{clip}\left(\frac{R_k - R_{\text{rand}}}{R_{\text{ref}} - R_{\tex
 constants for the graded environments are not disclosed.
 
 A run is **reliably performant** when $s_k \geq 0.9$ at all of the last ten checkpoints, i.e.
-over the final 100,000 environment steps of the run. The metric is the fraction of the 72
+over the final 100,000 environment steps of the run. Let `L` be the fraction of the 72
 runs that are reliably performant.
 
-A checkpoint reached before your first `report` call scores $s_k = 0$, and so does every
+For performance, use the raw return rather than the clipped `s_k`. The raw passing threshold
+for each environment is:
+
+$$T = R_{\text{rand}} + 0.9 (R_{\text{ref}} - R_{\text{rand}})$$
+
+Each checkpoint earns performance credit for reducing the remaining cost beyond `T`:
+
+$$q_k = \mathrm{clip}\left(\frac{R_k - T}{0 - T}, 0, 1\right)$$
+
+All six environment families return negative costs. Zero raw return is a theoretical upper
+bound, not necessarily achievable. Matching `R_ref` is not the maximum performance score;
+better returns continue earning credit.
+
+Let `P` be the average of `q_k` over the final ten checkpoints of all 72 runs, including
+runs that do not meet the reliability condition. The task metric and feedback reward are:
+
+$$S = 0.5 L + 0.5 P$$
+
+For example, if an environment's `T` is -100, returns of -100, -50 and 0 give performance
+credit `q_k` of 0, 0.5 and 1. If every run reliably passes exactly at its threshold, `S` is
+0.5. Better returns increase it toward 1.
+
+A checkpoint reached before your first `report` call scores $s_k = q_k = 0$, and so does every
 checkpoint after a run has been ended by the harness. If `train` returns early, the remaining
 checkpoints are evaluated with the policy you reported last.
 
@@ -87,7 +110,7 @@ are refused with `EPERM` inside a graded run.
 ## What ends a run
 
 Each of the following stops the run at that point, so every checkpoint from then on scores
-$s_k = 0$:
+$s_k = q_k = 0$:
 
 - spending more than 45 CPU-seconds. The meter covers every process your run creates, including
   helper processes and the work your `policy_fn` does answering evaluation queries, and it
