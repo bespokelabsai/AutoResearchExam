@@ -3,7 +3,7 @@ artifacts = [ "/app/solution",]
 
 [task]
 name = "bespokelabs/reppo-reliable-onpolicy-control-trainer"
-version = "1.0.0"
+version = "1.1.0"
 description = ""
 keywords = [ "autoresearch", "machine-learning", "benchmark",]
 [[task.authors]]
@@ -13,7 +13,7 @@ name = "Bespoke Labs"
 task_slug = "reppo-reliable-onpolicy-control-trainer"
 category = "Model Training and ML Infrastructure"
 subcategory = "Model Training and Alignment"
-metric_name = "reliable_success_fraction"
+metric_name = "reliability_performance_score"
 objective = "maximize"
 graded_deliverable = "/app/solution/trainer.py"
 device = "cpu"

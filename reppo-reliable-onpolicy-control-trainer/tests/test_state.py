@@ -16,6 +16,7 @@ SOLUTION_SRC = os.environ.get("SOLUTION_DIR", "/app/solution")
 GRADE_SPLIT = os.environ.get("GRADE_SPLIT", "final")
 PANEL_PATH = f"/tests/hidden_data/{GRADE_SPLIT}/panel.json"
 METRIC_PATH = Path("/logs/verifier/metric.json")
+PANEL_RESULTS_PATH = Path("/logs/verifier/panel_results.json")
 PYTHON = os.environ.get("PYTHON_BIN", "/usr/local/bin/python3")
 WORKERS = 8
 
@@ -57,6 +58,9 @@ def _grade() -> dict:
         timeout=PANEL_TIMEOUT_SEC,
     )
     scored = grader_core.score_panel(panel, results)
+    # Keep raw checkpoints separate from the harness's size-limited metric.json.
+    PANEL_RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    PANEL_RESULTS_PATH.write_text(json.dumps(results, indent=1))
     scored["valid"] = True
     scored["reason"] = ""
     scored["reward"] = grader_core.graded_reward(scored["metric"], True)
@@ -80,6 +84,8 @@ def result() -> dict:
                 "metric": 0.0,
                 "reward": 0.0,
             }
+        _RESULT["metric_name"] = grader_core.METRIC_NAME
+        _RESULT["scoring_version"] = grader_core.SCORING_VERSION
         METRIC_PATH.parent.mkdir(parents=True, exist_ok=True)
         METRIC_PATH.write_text(json.dumps(_RESULT, indent=1, sort_keys=True))
     return _RESULT
@@ -108,7 +114,7 @@ def test_every_panel_run_produced_a_checkpoint_series():
 
 
 def test_metric_and_reward_are_recorded():
-    """The raw metric and the mapped reward land in /logs/verifier/metric.json in range."""
+    """The composite metric and feedback reward are recorded in range."""
     r = result()
     assert METRIC_PATH.exists()
     assert 0.0 <= float(r["reward"]) <= 1.0
@@ -118,6 +124,10 @@ def test_metric_and_reward_are_recorded():
 
 
         print(
-            "reliable_success_fraction=%.4f  reliable=%d/%d"
-            % (r["metric"], r["n_reliable"], r["n_runs"])
+            "reliability_performance_score=%.6f  reliability=%.6f  "
+            "performance_improvement=%.6f  reliable=%d/%d"
+            % (
+                r["metric"], r["reliable_success_fraction"],
+                r["mean_performance_improvement"], r["n_reliable"], r["n_runs"],
+            )
         )
