@@ -1,9 +1,8 @@
 # AutoResearchExam
 
 This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks.bespokelabs.ai/autoresearchexam/).
-
-[Run with the official harness](#run-with-the-official-harness) or
-[use your own harness](#use-your-own-harness).
+The tasks run natively on [Harbor](https://github.com/harbor-framework/harbor) with any agent
+harness. See [Run](#run) and [How grading works](#how-grading-works).
 
 ## Task areas
 
@@ -127,70 +126,55 @@ pie showData
 
 </details>
 
-## Run with the official harness
+## Run
 
-[AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus)
-is the official harness for timed runs with repeated experiments and public
-validation feedback.
-
-Install [uv](https://docs.astral.sh/uv/), start Docker, and configure your model
-provider's credentials (`OPENAI_API_KEY` for the OpenAI example below).
-Docker's default preflight checks for 32000 MiB of free space per trial for
-retained artifacts, plus that task's storage requirement, summed across all
-selected trials on the jobs host.
-Download the tasks and harness into separate folders:
+Install [Harbor](https://github.com/harbor-framework/harbor), start Docker, and configure your
+model provider's credentials. Then run any agent harness on a task:
 
 ```bash
-mkdir autoresearch-exam-run && cd autoresearch-exam-run
-git clone https://github.com/bespokelabsai/AutoResearchExam.git github-tasks
-git clone https://github.com/bespokelabsai/AutoResearchExam-Terminus.git harness
-cd harness
-uv sync --python 3.12 --extra modal
+git clone https://github.com/bespokelabsai/AutoResearchExam.git
+harbor run \
+  --path AutoResearchExam/cpu-decoder-graph-executor \
+  --agent <agent> --model <model> --env docker \
+  --ak prompt_template_path=AutoResearchExam/are_protocol.md.j2
 ```
 
-Run one task with the default 24-hour research budget on local Docker.
-`harbor run` starts the full research and grading loop automatically:
+Use `--path AutoResearchExam` to run all tasks. `are_protocol.md.j2` adds the research protocol
+after each task instruction: submit regularly, keep improving the solution, and keep going
+until the run ends. Each run has a 24 hour research budget.
 
-```bash
-uv run harbor run \
-  --path ../github-tasks/cpu-decoder-graph-executor \
-  --agent autoresearchexam-terminus \
-  --model openai/gpt-5.6-sol \
-  --env docker \
-  --plugin autoresearch-exam \
-  --pk max_iterations=1000 \
-  --pk max_duration_seconds=86400 \
-  --pk min_time_per_iteration=0 \
-  --pk max_turns=10000 \
-  --pk max_tokens=32000 \
-  --pk reasoning_effort=max
-```
+During the run, the agent can reach `api.openai.com` and `api.anthropic.com`. If your harness
+uses another host, add `--allow-agent-host <host>`.
 
-Use `--path ../github-tasks` to run all tasks. The disk prerequisite above
-applies to all selected trials. This example uses the default benchmark settings:
-1000 experiments, 10000 model turns, 24 hours, 32000 tokens per response, and
-`max` reasoning effort, matching our Sol and Astra runs.
+GPU tasks need an NVIDIA GPU and the NVIDIA Container Toolkit. Grading shares GPU 0 with the
+agent by default. On a machine with a spare GPU, set `ARE_GRADER_GPU=1` to give grading its
+own GPU.
 
-If running on Modal, use `--env modal` and reduce `max_duration_seconds` to leave
-room for grading before its
-[24-hour sandbox timeout](https://modal.com/docs/guide/sandboxes#timeouts).
-For this example, use `--pk max_duration_seconds=82200` (~23 hours).
-The chosen duration also sets the AUARC scoring window.
+The environment provider must support multi-container tasks with a network allowlist, as
+Docker does. Modal does not support this.
 
-Find saved runs in [Results](https://github.com/bespokelabsai/AutoResearchExam-Terminus#results),
-then [compute AUARC](https://github.com/bespokelabsai/AutoResearchExam-Terminus#compute-auarc).
+To run the [AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus)
+harness, use the tasks at tag [`v1.0`](https://github.com/bespokelabsai/AutoResearchExam/tree/v1.0).
 
-## Use your own harness
+## How grading works
 
-You can run the same tasks with Claude Code, Codex, or another agent harness.
-Keep the task environment, graders, and time budget the same. Select each
-checkpoint by public validation and measure its private test score on the same
-saved artifact. Report test performance, but never use test scores to select
-checkpoints. Keep private test data, scores, and logs outside the agent
-environment throughout the run and checkpoint selection.
+Each task runs the agent next to two grader containers, so a run is a standard Harbor trial
+and needs no custom harness.
 
-Follow the [custom harness guide](https://github.com/bespokelabsai/AutoResearchExam-Terminus/blob/main/scripts/custom_harness.md)
-to record timestamped scores and compute AUARC with the existing script.
+- The agent submits with the `submit` tool of the `are` MCP server, or over HTTP at
+  `http://grader:8000/submit`. The first grader scores the submission on the public
+  validation split and returns the score and grader output.
+- The second grader scores the same submission on the private test split. The agent cannot
+  reach it and never sees these scores.
+- Grading does not pause the agent. The agent keeps working while a submission is graded,
+  but only one submission is graded at a time. A new submission is refused until the
+  previous one has its validation score.
+
+This gives the agent more working time than grading that pauses it, which can change scores.
+Because only one submission is graded at a time, an agent cannot flood the grader.
+
+Grading runs on the same machine as the agent and can compete with it for compute. Run on
+machines with spare cores beyond what each task requests.
 
 ## Citation
 
