@@ -1,8 +1,8 @@
 # AutoResearchExam
 
 This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks.bespokelabs.ai/autoresearchexam/).
-The tasks run natively on [Harbor](https://github.com/harbor-framework/harbor) with any agent
-harness. See [Run](#run) and [How grading works](#how-grading-works).
+Version 1.1 runs natively on [Harbor](https://github.com/harbor-framework/harbor) with any
+agent harness.
 
 ## Task areas
 
@@ -153,28 +153,39 @@ own GPU.
 The environment provider must support multi-container tasks with a network allowlist, as
 Docker does. Modal does not support this.
 
-To run the [AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus)
-harness, use the tasks at tag [`v1.0`](https://github.com/bespokelabsai/AutoResearchExam/tree/v1.0).
+## How autoresearch submissions and intermediate grading work
 
-## How grading works
-
-Each task runs the agent next to two grader containers, so a run is a standard Harbor trial
-and needs no custom harness.
+Each task runs the agent next to two grader containers.
 
 - The agent submits with the `submit` tool of the `are` MCP server, or over HTTP at
   `http://grader:8000/submit`. The first grader scores the submission on the public
-  validation split and returns the score and grader output.
+  validation split. The agent gets the score and grader output from the `result` tool.
 - The second grader scores the same submission on the private test split. The agent cannot
   reach it and never sees these scores.
 - Grading does not pause the agent. The agent keeps working while a submission is graded,
   but only one submission is graded at a time. A new submission is refused until the
   previous one has its validation score.
+- When the agent stops, the final workspace is graded too, unless it matches the last
+  submission.
 
-This gives the agent more working time than grading that pauses it, which can change scores.
-Because only one submission is graded at a time, an agent cannot flood the grader.
+In v1.0, grading paused the agent. Now the agent keeps working, so it has more working
+time, and scores can differ from v1.0. Because only one submission is graded at a time, an
+agent cannot flood the grader. The v1.0 tasks, used by the
+[AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus)
+harness, are at tag [`v1.0`](https://github.com/bespokelabsai/AutoResearchExam/tree/v1.0).
 
-Grading runs on the same machine as the agent and can compete with it for compute. Run on
-machines with spare cores beyond what each task requests.
+Grading runs on the same machine as the agent and can compete with it for compute. A grader
+uses as many cores as the task gives the agent, and the two graders never run at the same
+time, so plan for about twice the cores each task requests.
+
+## Leaderboard scores
+
+Each trial writes `verifier/reward.json`. Its `reward` is the private test score of the
+submission with the best validation score. Its `auarc` uses each task's own score, so it is
+not the leaderboard number. For leaderboard scores, follow the
+[scoring guide](https://github.com/bespokelabsai/AutoResearchExam-Terminus/blob/main/scripts/custom_harness.md)
+to normalize scores and compute AUARC. Every submission's scores and times are in the
+trial's `artifacts/var/lib/are/ledger.jsonl`.
 
 ## Citation
 

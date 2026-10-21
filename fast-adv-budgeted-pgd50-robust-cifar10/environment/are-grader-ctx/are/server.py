@@ -37,12 +37,14 @@ ROLE = os.environ.get("ARE_ROLE", "val")
 PORT = int(os.environ.get("ARE_PORT", "8000"))
 STATE = Path(os.environ.get("ARE_STATE_DIR", "/var/lib/are"))
 ARTIFACT_PATHS = [p for p in os.environ.get("ARE_ARTIFACT_PATHS", "/app/output").split(":") if p]
-SUBMISSION_ROOT = Path(os.environ.get("ARE_SUBMISSION_ROOT", "/submission"))
+# The shared deliverable volume. Its parent is root-only, so submitted code (which every
+# task grader runs as the unprivileged agent user) cannot reach it to write back to the agent.
+SUBMISSION_ROOT = Path(os.environ.get("ARE_SUBMISSION_ROOT", "/run/are-deliverable"))
 AGENT_UID = int(os.environ.get("ARE_AGENT_UID", "1001"))
 BUDGET_SEC = float(os.environ.get("ARE_BUDGET_SEC", "14400"))
 GRADE_TIMEOUT_SEC = float(os.environ.get("ARE_GRADE_TIMEOUT_SEC", "1800"))
 TEST_GRADER_URL = os.environ.get("ARE_TEST_GRADER_URL", "http://test-grader:8001")
-FEEDBACK_TAIL = int(os.environ.get("ARE_FEEDBACK_TAIL_CHARS", "2000"))
+FEEDBACK_TAIL = int(os.environ.get("ARE_FEEDBACK_TAIL_CHARS", "8192"))
 SCRIPT = "/tests/intermediate.sh" if ROLE == "val" else "/tests/test.sh"
 # Shared only by the two graders (a volume the agent's container never mounts). The test
 # grader writes a fresh token at startup; every internal request must carry it, so the
@@ -79,6 +81,24 @@ def _ledger(event: dict) -> None:
         fh.write(json.dumps(event) + "\n")
 
 
+def _kill_grading_processes(proc: subprocess.Popen) -> None:
+    """Kill everything a timed-out grade started, including processes that left its group.
+
+    Only this server (and its threads) and grading processes run in a grader container,
+    so every other process is part of the grade.
+    """
+    try:
+        os.killpg(proc.pid, 9)
+    except ProcessLookupError:
+        pass
+    for entry in Path("/proc").iterdir():
+        if entry.name.isdigit() and int(entry.name) not in (1, os.getpid()):
+            try:
+                os.kill(int(entry.name), 9)
+            except (ProcessLookupError, PermissionError):
+                pass
+
+
 def grade_snapshot(tar_bytes: bytes, tag: str) -> dict:
     """Extract a snapshot over the artifact paths and run this role's grader script."""
     for path in ARTIFACT_PATHS:
@@ -93,23 +113,18 @@ def grade_snapshot(tar_bytes: bytes, tag: str) -> dict:
         shutil.rmtree(logs)
     logs.mkdir(parents=True)
     started = time.time()
+    # Submitted code runs with no network, as in ARE 1.0's verifier.
+    cmd = (["unshare", "-n"] if NET_ISOLATED else []) + ["bash", SCRIPT]
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                            cwd="/tests", start_new_session=True)
     try:
-        # Submitted code runs with no network at all, so it cannot send grading
-        # inputs anywhere (the original ARE verifiers run with no network too).
-        cmd = (["unshare", "-n"] if NET_ISOLATED else []) + ["bash", SCRIPT]
-        proc = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=GRADE_TIMEOUT_SEC,
-            cwd="/tests",
-        )
-        output = proc.stdout + proc.stderr
+        out, err = proc.communicate(timeout=GRADE_TIMEOUT_SEC)
         error = None
-    except subprocess.TimeoutExpired as exc:
-        parts = [exc.stdout or "", exc.stderr or ""]
-        output = "".join(p.decode(errors="replace") if isinstance(p, bytes) else p for p in parts)
+    except subprocess.TimeoutExpired:
+        _kill_grading_processes(proc)
+        out, err = proc.communicate()
         error = f"grader timed out after {GRADE_TIMEOUT_SEC:.0f}s"
+    output = (out or "") + (err or "")
     score = 0.0
     reward_file = logs / "reward.txt"
     if reward_file.exists():
@@ -131,7 +146,8 @@ def grade_snapshot(tar_bytes: bytes, tag: str) -> dict:
         "error": error,
         "net_isolated": NET_ISOLATED,
         "seconds": round(time.time() - started, 1),
-        "output_tail": output[-FEEDBACK_TAIL:],
+        # What the agent sees, as in ARE 1.0: the grader's stdout tail (not stderr).
+        "output_tail": (out or "")[-FEEDBACK_TAIL:],
     }
 
 
@@ -139,6 +155,16 @@ mcp = FastMCP("are")
 
 
 # ---------------------------------------------------------------- test role
+
+
+_grade_lock = threading.Lock()
+
+
+def _grade_one_at_a_time(tar_bytes: bytes, tag: str) -> dict:
+    # A request that timed out on the caller's side may still be grading; the next one
+    # waits for it rather than sharing /app/output and /logs/verifier with it.
+    with _grade_lock:
+        return grade_snapshot(tar_bytes, tag)
 
 
 if ROLE == "test":
@@ -149,7 +175,7 @@ if ROLE == "test":
             return JSONResponse({"error": "forbidden"}, status_code=403)
         tag = request.query_params.get("tag", "x")
         body = await request.body()
-        result = await asyncio.to_thread(grade_snapshot, body, f"{tag}-test")
+        result = await asyncio.to_thread(_grade_one_at_a_time, body, f"{tag}-test")
         return JSONResponse(result)
 
 
@@ -173,7 +199,6 @@ class Board:
             v = s["val"]
             out.update(
                 validation_score=v["score"],
-                validation_metric=v["metric"],
                 error=v["error"],
                 grading_seconds=v["seconds"],
                 grader_output_tail=v["output_tail"],
@@ -285,7 +310,7 @@ def _test_grade(sid: int, data: bytes) -> None:
             f"{TEST_GRADER_URL}/grade?tag={sid:04d}", data=data, method="POST",
             headers={"x-are-token": TOKEN},
         )
-        with urllib.request.urlopen(req, timeout=GRADE_TIMEOUT_SEC + 120) as resp:
+        with urllib.request.urlopen(req, timeout=2 * GRADE_TIMEOUT_SEC + 300) as resp:
             res = json.loads(resp.read())
     except Exception as exc:  # recorded, never shown to the agent
         res = {"score": None, "metric": None, "error": f"test grader: {exc}",
@@ -412,6 +437,8 @@ def main() -> None:
     (STATE / "snapshots").mkdir(exist_ok=True)
     if ROLE == "val":
         # The deliverable volume starts empty and root-owned; hand it to the agent user.
+        SUBMISSION_ROOT.mkdir(parents=True, exist_ok=True)
+        os.chmod(SUBMISSION_ROOT, 0o700)
         for path in ARTIFACT_PATHS:
             src = SUBMISSION_ROOT / path.lstrip("/")
             src.mkdir(parents=True, exist_ok=True)

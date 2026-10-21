@@ -22,7 +22,7 @@ services:
       ARE_AGENT_UID: "1001"
       ARE_GRADE_TIMEOUT_SEC: "2400"
     volumes:
-      - are-deliverable-0:/submission/app/solution
+      - are-deliverable-0:/run/are-deliverable/app/solution
       - are-secret:/run/are-secret
     expose:
       - "8000"
