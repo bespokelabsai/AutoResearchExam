@@ -82,15 +82,17 @@ def _ledger(event: dict) -> None:
 
 
 def _kill_grading_processes(proc: subprocess.Popen) -> None:
-    """Kill everything a timed-out grade started, including processes that left its group.
-
-    Only this server (and its threads) and grading processes run in a grader container,
-    so every other process is part of the grade.
-    """
+    """Kill everything a timed-out grade started, including processes that left its group."""
     try:
         os.killpg(proc.pid, 9)
     except ProcessLookupError:
         pass
+    _kill_other_processes()
+
+
+def _kill_other_processes() -> None:
+    """Only this server and grading processes run in a grader container, so every other
+    process belongs to a grade."""
     for entry in Path("/proc").iterdir():
         if entry.name.isdigit() and int(entry.name) not in (1, os.getpid()):
             try:
@@ -99,8 +101,49 @@ def _kill_grading_processes(proc: subprocess.Popen) -> None:
                 pass
 
 
+# Places the agent user (who runs submitted code inside every task grader) can write.
+SCRATCH_DIRS = ["/tmp", "/var/tmp", "/dev/shm", "/home", "/run/user"]
+
+
+_BASELINE: set[str] = set()  # files present when the grader started (from its image)
+
+
+def _agent_files() -> list[Path]:
+    out = []
+    for root in SCRATCH_DIRS:
+        base = Path(root)
+        if base.is_dir():
+            for path in base.rglob("*"):
+                try:
+                    if path.lstat().st_uid == AGENT_UID:
+                        out.append(path)
+                except OSError:
+                    pass
+    return out
+
+
+def _fresh_state() -> None:
+    """Make each grade start clean, as ARE 1.0's fresh verifier container did.
+
+    The grader container lives for the whole run, so before each grade remove any process
+    an earlier grade left running and any file it created (files from the image stay).
+    """
+    _kill_other_processes()
+    for path in sorted(_agent_files(), key=lambda q: len(q.parts), reverse=True):
+        if str(path) in _BASELINE:
+            continue
+        try:
+            if path.is_dir() and not path.is_symlink():
+                shutil.rmtree(path, ignore_errors=True)
+            else:
+                path.unlink()
+        except OSError:
+            pass
+
+
 def grade_snapshot(tar_bytes: bytes, tag: str) -> dict:
     """Extract a snapshot over the artifact paths and run this role's grader script."""
+    _fresh_state()
     for path in ARTIFACT_PATHS:
         p = Path(path)
         if p.exists():
@@ -431,6 +474,7 @@ def _setup_token() -> None:
 def main() -> None:
     global NET_ISOLATED
     NET_ISOLATED = _net_isolation_available()
+    _BASELINE.update(str(q) for q in _agent_files())
     _setup_token()
     STATE.mkdir(parents=True, exist_ok=True)
     os.chmod(STATE, 0o700)

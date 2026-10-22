@@ -40,10 +40,9 @@ RUN PY=$(command -v /usr/local/bin/python3 || command -v python3) \
        else rm -rf /opt/are/venv && "$PY" -m venv --without-pip /opt/are/venv \
          && "$PY" -m pip --python /opt/are/venv/bin/python install --no-cache-dir "fastmcp==2.14.7"; fi
 COPY are/ /opt/are/
-# Each grader holds only its own split: the val grader never has the private grader or
-# its data, the test grader never has the public one.
+# The val grader, whose output reaches the agent, never holds the private grader or its
+# data. The test grader keeps everything; nothing from it reaches the agent.
 RUN rm -rf /tests/are /tests/Dockerfile.are \
-    && if [ "$ARE_ROLE" = "val" ]; then rm -rf /tests/test.sh /tests/hidden_data/final /tests/prepare_hidden_data.py; \
-       else rm -rf /tests/intermediate.sh /tests/hidden_data/intermediate; fi
+    && if [ "$ARE_ROLE" = "val" ]; then rm -rf /tests/test.sh /tests/hidden_data/final /tests/prepare_hidden_data.py; fi
 ENV ARE_ROLE=$ARE_ROLE
 CMD ["/opt/are/venv/bin/python", "/opt/are/server.py"]
