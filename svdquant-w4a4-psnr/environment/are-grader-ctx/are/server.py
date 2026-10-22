@@ -105,10 +105,7 @@ def _kill_other_processes() -> None:
 
 
 # Places the agent user (who runs submitted code inside every task grader) can write.
-WRITABLE_DIRS: list[Path] = []  # set at startup: the only places graded code can create files
-
-
-_BASELINE: set[str] = set()  # files present when the grader started (from its image)
+_BASELINE: set[str] = set()  # every path that existed when the grader started (its image)
 
 
 def _walk_one_fs(base: Path):
@@ -120,54 +117,37 @@ def _walk_one_fs(base: Path):
             yield Path(root) / name
 
 
-def _find_writable_dirs() -> list[Path]:
-    """Directories the agent user can write to, top-most only (scanned once at startup)."""
-    found: list[Path] = []
+def _all_paths() -> set[str]:
+    out = set()
     for base in (Path("/"), Path("/dev/shm")):
-        for path in _walk_one_fs(base):
-            try:
-                st = path.lstat()
-            except OSError:
-                continue
-            if not path.is_dir() or path.is_symlink():
-                continue
-            if st.st_uid == AGENT_UID or st.st_mode & 0o002 or (st.st_gid == AGENT_UID and st.st_mode & 0o020):
-                if not any(parent in found for parent in path.parents):
-                    found.append(path)
-    return found
-
-
-def _agent_files() -> list[Path]:
-    out = []
-    for base in WRITABLE_DIRS:
-        if not base.is_dir():
-            continue
-        for path in _walk_one_fs(base):
-            try:
-                if path.lstat().st_uid == AGENT_UID:
-                    out.append(path)
-            except OSError:
-                pass
+        if base.is_dir():
+            out.update(str(q) for q in _walk_one_fs(base))
     return out
 
 
-def _fresh_state() -> None:
-    """Make each grade start clean, as ARE 1.0's fresh verifier container did.
+def _protected(path: str) -> bool:
+    keep = [str(STATE), "/opt/are", str(TOKEN_FILE.parent)]
+    return any(path == k or path.startswith(k + "/") for k in keep)
 
-    The grader container lives for the whole run, so before each grade remove any process
-    an earlier grade left running and any file it created (files from the image stay).
-    """
+
+def _fresh_state() -> None:
+    """Start every grade from the grader image's own files, as ARE 1.0's fresh verifier
+    container did. The grader container lives for the whole run, so before each grade
+    stop anything an earlier grade left running and delete every file it created,
+    whoever wrote it. The deliverable volume and the token are separate mounts and are
+    never walked; the grader's own state is kept."""
     _kill_other_processes()
     # System V shared memory, semaphores and queues outlive processes; this server uses none.
     subprocess.run(["ipcrm", "--all"], capture_output=True)
-    for path in sorted(_agent_files(), key=lambda q: len(q.parts), reverse=True):
-        if str(path) in _BASELINE:
+    for path in sorted(_all_paths() - _BASELINE, key=lambda q: q.count("/"), reverse=True):
+        if _protected(path):
             continue
         try:
-            if path.is_dir() and not path.is_symlink():
-                shutil.rmtree(path, ignore_errors=True)
+            q = Path(path)
+            if q.is_dir() and not q.is_symlink():
+                shutil.rmtree(q, ignore_errors=True)
             else:
-                path.unlink()
+                q.unlink()
         except OSError:
             pass
 
@@ -507,8 +487,12 @@ def _setup_token() -> None:
 def main() -> None:
     global NET_ISOLATED
     NET_ISOLATED = _net_isolation_available()
-    WRITABLE_DIRS.extend(_find_writable_dirs())
-    _BASELINE.update(str(q) for q in _agent_files())
+    if not NET_ISOLATED:
+        # Graded code must never have a network path (for example back through /submit).
+        raise SystemExit("ARE grader: cannot run grades without network access "
+                         "(needs `unshare -n`, i.e. CAP_SYS_ADMIN); refusing to start")
+    STATE.mkdir(parents=True, exist_ok=True)
+    _BASELINE.update(_all_paths())
     _setup_token()
     STATE.mkdir(parents=True, exist_ok=True)
     os.chmod(STATE, 0o700)
