@@ -91,34 +91,63 @@ def _kill_grading_processes(proc: subprocess.Popen) -> None:
 
 
 def _kill_other_processes() -> None:
-    """Only this server and grading processes run in a grader container, so every other
-    process belongs to a grade."""
+    """Kill every process run by the agent user. Every task grader runs submitted code as
+    that user, so this stops all graded code (detached or not) and nothing else: the grader
+    server, the task's own grader and Harbor's hooks run as root."""
     for entry in Path("/proc").iterdir():
-        if entry.name.isdigit() and int(entry.name) not in (1, os.getpid()):
-            try:
+        if not entry.name.isdigit():
+            continue
+        try:
+            if entry.stat().st_uid == AGENT_UID:
                 os.kill(int(entry.name), 9)
-            except (ProcessLookupError, PermissionError):
-                pass
+        except (ProcessLookupError, PermissionError, FileNotFoundError):
+            pass
 
 
 # Places the agent user (who runs submitted code inside every task grader) can write.
-SCRATCH_DIRS = ["/tmp", "/var/tmp", "/dev/shm", "/home", "/run/user"]
+WRITABLE_DIRS: list[Path] = []  # set at startup: the only places graded code can create files
 
 
 _BASELINE: set[str] = set()  # files present when the grader started (from its image)
 
 
+def _walk_one_fs(base: Path):
+    """Every path under base on base's own filesystem (skips /proc, /sys and other mounts)."""
+    dev = base.stat().st_dev
+    for root, dirs, files in os.walk(base):
+        dirs[:] = [d for d in dirs if os.lstat(os.path.join(root, d)).st_dev == dev]
+        for name in dirs + files:
+            yield Path(root) / name
+
+
+def _find_writable_dirs() -> list[Path]:
+    """Directories the agent user can write to, top-most only (scanned once at startup)."""
+    found: list[Path] = []
+    for base in (Path("/"), Path("/dev/shm")):
+        for path in _walk_one_fs(base):
+            try:
+                st = path.lstat()
+            except OSError:
+                continue
+            if not path.is_dir() or path.is_symlink():
+                continue
+            if st.st_uid == AGENT_UID or st.st_mode & 0o002 or (st.st_gid == AGENT_UID and st.st_mode & 0o020):
+                if not any(parent in found for parent in path.parents):
+                    found.append(path)
+    return found
+
+
 def _agent_files() -> list[Path]:
     out = []
-    for root in SCRATCH_DIRS:
-        base = Path(root)
-        if base.is_dir():
-            for path in base.rglob("*"):
-                try:
-                    if path.lstat().st_uid == AGENT_UID:
-                        out.append(path)
-                except OSError:
-                    pass
+    for base in WRITABLE_DIRS:
+        if not base.is_dir():
+            continue
+        for path in _walk_one_fs(base):
+            try:
+                if path.lstat().st_uid == AGENT_UID:
+                    out.append(path)
+            except OSError:
+                pass
     return out
 
 
@@ -129,6 +158,8 @@ def _fresh_state() -> None:
     an earlier grade left running and any file it created (files from the image stay).
     """
     _kill_other_processes()
+    # System V shared memory, semaphores and queues outlive processes; this server uses none.
+    subprocess.run(["ipcrm", "--all"], capture_output=True)
     for path in sorted(_agent_files(), key=lambda q: len(q.parts), reverse=True):
         if str(path) in _BASELINE:
             continue
@@ -168,6 +199,8 @@ def grade_snapshot(tar_bytes: bytes, tag: str) -> dict:
         out, err = proc.communicate()
         error = f"grader timed out after {GRADE_TIMEOUT_SEC:.0f}s"
     output = (out or "") + (err or "")
+    # Nothing a grade started may keep running after it, not even detached processes.
+    _kill_other_processes()
     score = 0.0
     reward_file = logs / "reward.txt"
     if reward_file.exists():
@@ -474,6 +507,7 @@ def _setup_token() -> None:
 def main() -> None:
     global NET_ISOLATED
     NET_ISOLATED = _net_isolation_available()
+    WRITABLE_DIRS.extend(_find_writable_dirs())
     _BASELINE.update(str(q) for q in _agent_files())
     _setup_token()
     STATE.mkdir(parents=True, exist_ok=True)
