@@ -1,0 +1,76 @@
+# ARE 1.1: grading lives in sidecars. Harbor configures `main` (build, limits, network).
+services:
+  main:
+    depends_on:
+      grader:
+        condition: service_healthy
+    volumes:
+      - are-deliverable-0:/app/solution
+
+  grader:
+    build:
+      context: ./are-grader-ctx
+      dockerfile: Dockerfile.are
+      args:
+        ARE_ROLE: val
+    platform: linux/amd64
+    environment:
+      ARE_ROLE: val
+      ARE_PORT: "8000"
+      ARE_BUDGET_SEC: "86400"
+      ARE_ARTIFACT_PATHS: "/app/solution"
+      ARE_AGENT_UID: "1001"
+      ARE_GRADE_TIMEOUT_SEC: "1800"
+    volumes:
+      - are-deliverable-0:/run/are-deliverable/app/solution
+      - are-secret:/run/are-secret
+    expose:
+      - "8000"
+    cap_add: [SYS_ADMIN]
+    networks: [default, are-private]
+    cpus: 8
+    mem_limit: 14336m
+    depends_on:
+      test-grader:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 2s
+      timeout: 5s
+      retries: 60
+      start_period: 5s
+
+  test-grader:
+    build:
+      context: ./are-grader-ctx
+      dockerfile: Dockerfile.are
+      args:
+        ARE_ROLE: test
+    platform: linux/amd64
+    environment:
+      ARE_ROLE: test
+      ARE_PORT: "8001"
+      ARE_ARTIFACT_PATHS: "/app/solution"
+      ARE_GRADE_TIMEOUT_SEC: "1800"
+    expose:
+      - "8001"
+    volumes:
+      - are-secret:/run/are-secret
+    cap_add: [SYS_ADMIN]
+    networks: [are-private]
+    cpus: 8
+    mem_limit: 14336m
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health', timeout=2)"]
+      interval: 2s
+      timeout: 5s
+      retries: 60
+      start_period: 5s
+
+volumes:
+  are-deliverable-0: {}
+  are-secret: {}
+
+networks:
+  are-private:
+    internal: true

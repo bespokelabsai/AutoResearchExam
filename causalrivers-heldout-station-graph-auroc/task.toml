@@ -1,59 +1,73 @@
 schema_version = "1.4"
-artifacts = [ "/app/output",]
+artifacts = [
+    { source = "/var/lib/are", service = "grader" },
+]
 
 [task]
 name = "bespokelabs/causalrivers-heldout-station-graph-auroc"
-version = "1.0.0"
-description = ""
-keywords = [ "autoresearch", "machine-learning", "benchmark",]
-[[task.authors]]
-name = "Bespoke Labs"
+version = "1.1.0"
+description = "AutoResearchExam 1.1 task (harness-free: grading in sidecars)."
+keywords = [
+    "autoresearch",
+    "machine-learning",
+    "benchmark",
+]
+authors = [
+    { name = "Bespoke Labs" },
+]
 
 [metadata]
 category = "Machine Learning and AI"
 subcategory = "Model inference and prediction"
-task_objective = [ "Implement", "Optimize",]
-artifact_type = [ "Single script or program",]
+task_objective = [
+    "Implement",
+    "Optimize",
+]
+artifact_type = [
+    "Single script or program",
+]
 expert_time_estimate_hours = 6.0
 metric_name = "Mean per-subgraph AUROC of directed-edge scores over a sealed panel of connected 5-node gauge subgraphs"
 objective = "maximize"
+are_version = "1.1"
+budget_seconds = 86400
 
 [verifier]
-timeout_sec = 2700.0
+timeout_sec = 600.0
 environment_mode = "separate"
-collect = []
 
-[verifier.env]
+[[verifier.collect]]
+service = "grader"
+command = "/opt/are/venv/bin/python /opt/are/drain.py"
+timeout_sec = 5400.0
 
 [verifier.environment]
 network_mode = "no-network"
-build_timeout_sec = 3600.0
-os = "linux"
-cpus = 8
-memory_mb = 14336
-storage_mb = 153600
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 1024
 gpus = 0
-mcp_servers = []
-
-[verifier.environment.env]
 
 [agent]
 network_mode = "allowlist"
-allowed_hosts = [ "api.openai.com", "api.anthropic.com",]
-timeout_sec = 14400.0
+allowed_hosts = [
+    "api.openai.com",
+    "api.anthropic.com",
+    "grader",
+]
+timeout_sec = 86400.0
 user = "agent"
 
 [environment]
-network_mode = "allowlist"
-allowed_hosts = [ "api.openai.com", "api.anthropic.com",]
+network_mode = "public"
 build_timeout_sec = 3600.0
 os = "linux"
 cpus = 8
 memory_mb = 14336
 storage_mb = 153600
 gpus = 0
-mcp_servers = []
+mcp_servers = [
+    { name = "are", transport = "streamable-http", url = "http://grader:8000/mcp" },
+]
 
 [environment.env]
-
-[solution.env]
