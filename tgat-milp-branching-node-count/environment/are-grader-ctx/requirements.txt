@@ -4,7 +4,7 @@ numpy==2.3.4
 scipy==1.16.3
 scikit-learn==1.7.2
 pyscipopt==6.2.1
-torch==2.9.1+cpu
+torch==2.12.1+cpu
 filelock==3.32.3
 fsspec==2026.7.0
 jinja2==3.1.6
