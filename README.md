@@ -181,6 +181,11 @@ Each task runs the agent next to two grader containers.
 - When the agent stops, the final workspace is graded too, unless it matches the last
   submission.
 
+## How scores can differ from v1.0
+
+In v1.0, the official harness keeps the agent submitting for the full 24 hours. In v1.1, that
+is your agent's responsibility.
+
 In v1.0, grading paused the agent. Now the agent keeps working while a submission is
 graded, so it has more working time. Because only one submission is graded at a time, an
 agent cannot flood the grader.
