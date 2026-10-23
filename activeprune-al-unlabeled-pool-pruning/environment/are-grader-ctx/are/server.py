@@ -77,8 +77,15 @@ def _elapsed() -> float:
 
 def _ledger(event: dict) -> None:
     event = {"t": _elapsed(), "wall": time.time(), **event}
-    with _lock, open(STATE / "ledger.jsonl", "a") as fh:
-        fh.write(json.dumps(event) + "\n")
+    for attempt in range(3):
+        try:
+            with _lock, open(STATE / "ledger.jsonl", "a") as fh:
+                fh.write(json.dumps(event) + "\n")
+            return
+        except OSError:
+            if attempt == 2:
+                raise
+            time.sleep(1)
 
 
 def _kill_grading_processes(proc: subprocess.Popen) -> None:
@@ -347,7 +354,10 @@ def grade_worker() -> None:
                    "net_isolated": NET_ISOLATED, "seconds": 0.0, "output_tail": ""}
         board.subs[sid]["val"] = res
         board.subs[sid]["status"] = "graded"
-        _ledger({"event": "val", "id": sid, **{k: res[k] for k in ("score", "metric", "error", "seconds", "net_isolated")}})
+        try:
+            _ledger({"event": "val", "id": sid, **{k: res[k] for k in ("score", "metric", "error", "seconds", "net_isolated")}})
+        except OSError as exc:  # keep grading later submissions
+            print(f"ARE grader: ledger write failed for {sid}: {exc}", flush=True)
         test_grade(sid, data)
 
 
@@ -360,18 +370,29 @@ def test_grade(sid: int, data: bytes) -> None:
 
 
 def _test_grade(sid: int, data: bytes) -> None:
+    """Send one snapshot to the test grader. A failed request is retried (the same snapshot
+    is graded again, so a retry can only recover the honest score); a request that ran
+    past its timeout is not, since the grade itself already took the full time."""
     started = time.time()
+    for attempt in range(3):
+        try:
+            req = urllib.request.Request(
+                f"{TEST_GRADER_URL}/grade?tag={sid:04d}", data=data, method="POST",
+                headers={"x-are-token": TOKEN},
+            )
+            with urllib.request.urlopen(req, timeout=2 * GRADE_TIMEOUT_SEC + 300) as resp:
+                res = json.loads(resp.read())
+            break
+        except Exception as exc:  # recorded, never shown to the agent
+            res = {"score": None, "metric": None, "error": f"test grader: {exc}",
+                   "seconds": round(time.time() - started, 1)}
+            if attempt == 2 or isinstance(exc, TimeoutError) or isinstance(getattr(exc, "reason", None), TimeoutError):
+                break
+            time.sleep(5)
     try:
-        req = urllib.request.Request(
-            f"{TEST_GRADER_URL}/grade?tag={sid:04d}", data=data, method="POST",
-            headers={"x-are-token": TOKEN},
-        )
-        with urllib.request.urlopen(req, timeout=2 * GRADE_TIMEOUT_SEC + 300) as resp:
-            res = json.loads(resp.read())
-    except Exception as exc:  # recorded, never shown to the agent
-        res = {"score": None, "metric": None, "error": f"test grader: {exc}",
-               "seconds": round(time.time() - started, 1)}
-    _ledger({"event": "test", "id": sid, **{k: res.get(k) for k in ("score", "metric", "error", "seconds", "net_isolated")}})
+        _ledger({"event": "test", "id": sid, **{k: res.get(k) for k in ("score", "metric", "error", "seconds", "net_isolated")}})
+    except OSError as exc:  # keep grading later submissions
+        print(f"ARE grader: ledger write failed for {sid}: {exc}", flush=True)
 
 
 def with_time(out: dict) -> dict:
