@@ -140,6 +140,10 @@ harness. To reproduce leaderboard scores, follow the instructions in that reposi
 
 ### With your own harness
 
+The official harness keeps the agent working and submitting until the budget ends. With your
+own harness, that is up to the agent. An agent can stop early, but then it scores lower,
+because it did not follow the instruction to keep going.
+
 Install [Harbor](https://github.com/harbor-framework/harbor), start Docker, and set up your
 model provider's credentials. Then run any agent harness on a task:
 
@@ -171,8 +175,8 @@ Each task runs the agent next to two grader containers.
   validation split. The agent gets the score and grader output from the `result` tool.
 - The second grader scores the same submission on the private test split. The agent cannot
   reach it and never sees these scores.
-- Grading does not pause the agent. The agent keeps working while a submission is graded,
-  but only one submission is graded at a time. A new submission is refused until the
+- Grading does not pause the agent. The agent keeps working while a submission is graded.
+  Only one grade runs at a time, validation or test. A new submission is refused until the
   previous one has its validation score.
 - When the agent stops, the final workspace is graded too, unless it matches the last
   submission.
