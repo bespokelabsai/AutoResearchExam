@@ -7,10 +7,9 @@ agent harness.
 The leaderboard uses the
 [v1.0 tasks](https://github.com/bespokelabsai/AutoResearchExam/tree/v1.0) with the
 [AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus)
-harness, which keeps the agent working for the full 24 hour budget. Most other harnesses end
-the run as soon as the model stops, so their runs can be shorter and score lower. To
-reproduce leaderboard scores, use the official harness. Use version 1.1 to test your own
-harness.
+harness. To reproduce leaderboard scores, use that harness. Use version 1.1 to run the tasks
+with your own harness. Each run has a 24 hour research budget, and the agent should keep
+working until it ends.
 
 ## Task areas
 
@@ -136,7 +135,7 @@ pie showData
 
 ## Run
 
-Install [Harbor](https://github.com/harbor-framework/harbor), start Docker, and configure your
+Install [Harbor](https://github.com/harbor-framework/harbor), start Docker, and set up your
 model provider's credentials. Then run any agent harness on a task:
 
 ```bash
@@ -149,7 +148,7 @@ harbor run \
 
 Use `--path AutoResearchExam` to run all tasks. `are_protocol.md.j2` adds the research protocol
 after each task instruction: submit regularly, keep improving the solution, and keep going
-until the run ends. Each run has a 24 hour research budget.
+until the run ends.
 
 During the run, the agent can reach `api.openai.com` and `api.anthropic.com`. If your harness
 uses another host, add `--allow-agent-host <host>`.
@@ -157,10 +156,6 @@ uses another host, add `--allow-agent-host <host>`.
 GPU tasks need an NVIDIA GPU and the NVIDIA Container Toolkit. Grading shares GPU 0 with the
 agent by default. On a machine with a spare GPU, set `ARE_GRADER_GPU=1` to give grading its
 own GPU.
-
-Run with Docker, on your own machine or a cloud VM. Each task uses several containers and a
-network allowlist. Modal and Daytona cannot enforce the allowlist for such tasks, so they are
-not supported.
 
 ## How autoresearch submissions and intermediate grading work
 
@@ -193,9 +188,6 @@ put scores on the leaderboard scale, follow the
 [scoring guide](https://github.com/bespokelabsai/AutoResearchExam-Terminus/blob/main/scripts/custom_harness.md)
 to normalize scores and compute AUARC. Every submission's scores and times are in the
 trial's `artifacts/var/lib/are/ledger.jsonl`.
-
-When you report scores, also report how long the agent worked. Harbor records this as
-`agent_execution` in each trial's `result.json`.
 
 ## Citation
 
