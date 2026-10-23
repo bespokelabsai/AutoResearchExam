@@ -2,14 +2,8 @@
 
 This repository contains the 29 tasks from [AutoResearchExam](https://benchmarks.bespokelabs.ai/autoresearchexam/).
 Version 1.1 runs natively on [Harbor](https://github.com/harbor-framework/harbor) with any
-agent harness.
-
-The leaderboard uses the
-[v1.0 tasks](https://github.com/bespokelabsai/AutoResearchExam/tree/v1.0) with the
-[AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus)
-harness. To reproduce leaderboard scores, use that harness. Use version 1.1 to run the tasks
-with your own harness. Each run has a 24 hour research budget, and the agent should keep
-working until it ends.
+agent harness. Leaderboard scores come from the official harness on version 1.0. See
+[Run](#run) for both.
 
 ## Task areas
 
@@ -134,6 +128,17 @@ pie showData
 </details>
 
 ## Run
+
+Each run has a 24 hour research budget, and the agent should keep working until it ends.
+
+### With the official harness
+
+The leaderboard uses the
+[v1.0 tasks](https://github.com/bespokelabsai/AutoResearchExam/tree/v1.0) with the official
+[AutoResearchExam-Terminus](https://github.com/bespokelabsai/AutoResearchExam-Terminus)
+harness. To reproduce leaderboard scores, follow the instructions in that repository.
+
+### With your own harness
 
 Install [Harbor](https://github.com/harbor-framework/harbor), start Docker, and set up your
 model provider's credentials. Then run any agent harness on a task:
