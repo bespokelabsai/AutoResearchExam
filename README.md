@@ -8,7 +8,8 @@ agent harness. Leaderboard scores come from the official harness on version 1.0.
 ## News
 
 - **2026-10: v1.1.** Run AutoResearchExam with any agent harness using plain `harbor run`
-  on [Harbor](https://github.com/harbor-framework/harbor) main, with no custom harness. Same
+  on [Harbor](https://github.com/harbor-framework/harbor) main, without depending on any
+  custom harness. Same
   tasks, data and graders as v1.0. Leaderboard scores still come from v1.0 with the official
   harness.
 - **2026-09: v1.0.** Initial release with the official harness and leaderboard.
