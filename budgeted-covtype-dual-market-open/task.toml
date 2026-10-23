@@ -6,7 +6,7 @@ artifacts = [
 [task]
 name = "bespokelabs/budgeted-covtype-dual-market-open"
 version = "1.1.0"
-description = "AutoResearchExam 1.1 task (harness-free: grading in sidecars)."
+description = ""
 keywords = [
     "autoresearch",
     "machine-learning",
