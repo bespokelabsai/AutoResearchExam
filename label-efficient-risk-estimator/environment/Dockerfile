@@ -9,9 +9,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        git=1:2.39.5-0+deb12u3 \
-        tmux=3.3a-3 \
-        asciinema=2.2.0-1 \
+        git \
+        tmux \
+        asciinema \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd --create-home --uid 1001 agent
