@@ -2,7 +2,7 @@ FROM --platform=linux/amd64 public.ecr.aws/docker/library/python:3.13-slim-bookw
 
 RUN set -eu; \
     if [ ! -s /etc/ssl/certs/ca-certificates.crt ]; then \
-      apt-get update && apt-get install -y --no-install-recommends ca-certificates=20230311+deb12u1; \
+      apt-get update && apt-get install -y --no-install-recommends ca-certificates; \
     fi; \
     rm -f /tmp/hz-prereq.list; \
     echo 'deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] https://snapshot.debian.org/archive/debian/20260801T000000Z bookworm main' >> /tmp/hz-prereq.list; \
@@ -43,7 +43,7 @@ RUN mkdir -p /app/output \
 
 RUN command -v git >/dev/null 2>&1 \
     || (apt-get update \
-        && apt-get install -y --no-install-recommends git=1:2.39.5-0+deb12u3 \
+        && apt-get install -y --no-install-recommends git \
         && rm -rf /var/lib/apt/lists/*)
 RUN git config --system user.email "agent@localhost" \
     && git config --system user.name "autoresearch agent"

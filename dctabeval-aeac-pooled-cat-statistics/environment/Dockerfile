@@ -4,8 +4,8 @@ ENTRYPOINT []
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      git=1:2.39.5-0+deb12u3 \
-      libgomp1=12.2.0-14+deb12u1 \
+      git \
+      libgomp1 \
       tmux=3.3a-3 \
       asciinema=2.2.0-1 \
  && rm -rf /var/lib/apt/lists/*

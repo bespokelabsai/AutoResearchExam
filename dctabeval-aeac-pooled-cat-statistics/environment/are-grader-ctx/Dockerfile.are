@@ -4,7 +4,7 @@ ENTRYPOINT []
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      libgomp1=12.2.0-14+deb12u1 \
+      libgomp1 \
  && rm -rf /var/lib/apt/lists/* \
  && command -v setsid \
  && command -v runuser
