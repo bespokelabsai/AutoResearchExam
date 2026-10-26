@@ -6,8 +6,8 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       git \
       libgomp1 \
-      tmux=3.3a-3 \
-      asciinema=2.2.0-1 \
+      tmux \
+      asciinema \
  && rm -rf /var/lib/apt/lists/*
 
 RUN git config --system user.email "agent@localhost" \
