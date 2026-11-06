@@ -31,7 +31,7 @@ The target metric is robust accuracy under a fixed PGD 50 attack with perturbati
 
 The attack uses 50 steps, step size `2/255`, and 10 random restarts. Images use CIFAR 10 channel means `(0.4914, 0.4822, 0.4465)` and standard deviations `(0.2471, 0.2435, 0.2616)`. The attack runs in float32 and uses a fixed random seed.
 
-Before the attack, the grader divides logits by `T = max(1, s / 20)`, where `s` is their mean standard deviation across clean evaluation images. This leaves clean predictions unchanged and prevents logit scaling from weakening the attack.
+Before the attack, the grader divides logits by `T = s / 20`, where `s` is their mean standard deviation across clean evaluation images. This leaves clean predictions unchanged and makes the attack the same for any positive rescaling of the logits, so rescaling cannot weaken or strengthen it.
 
 The score reported during research iterations uses a validation half of the CIFAR 10 test split. The final score uses a separate hidden half. Clean accuracy is recorded but does not affect the reward.
 
