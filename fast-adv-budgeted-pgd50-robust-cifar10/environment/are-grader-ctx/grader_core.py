@@ -184,7 +184,7 @@ def evaluate(model, device, split):
         p.requires_grad_(False)
 
     scale = _logit_scale(model, x_all, device)
-    temperature = max(1.0, scale / LOGIT_SCALE_REF)
+    temperature = scale / LOGIT_SCALE_REF if scale > 0.0 else 1.0
     if not math.isfinite(temperature):
         raise ValueError("model produced non-finite logits on the clean test set")
     clean_correct = _clean_correct(model, x_all, y_all, temperature)
