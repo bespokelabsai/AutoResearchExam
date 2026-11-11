@@ -16,7 +16,7 @@ mujoco==3.3.4
 networkx==3.6.1
 numpy==2.5.1
 packaging==25.0
-pillow==12.3.0
+pillow==13.0.0
 pyopengl==3.1.10
 setuptools==83.0.0
 sympy==1.14.0
